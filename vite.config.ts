@@ -14,8 +14,6 @@ export default defineConfig({
     tailwindcss(), 
     VitePWA({
       registerType: "autoUpdate",
-      injectRegister: "auto",
-      base: "/escala-pacientes/",
       manifest: {
         name: "Escala Pacientes",
         short_name: "Escala",
@@ -35,8 +33,25 @@ export default defineConfig({
             sizes: "512x512",
             type: "image/png"
           }
+        ],
+        screenshots: [
+          {
+            src: "desktop.png",
+            sizes: "1280x720",
+            type: "image/png",
+            form_factor: "wide",
+            label: "Desktop view"
+          },
+          {
+            src: "mobile.png",
+            sizes: "390x844",
+            type: "image/png",
+            label: "Mobile view"
+          }
         ]
-      }
+      },
+      includeAssets: ["favicon.svg"],
+      injectManifest: undefined
     })
   ],
   resolve: {
