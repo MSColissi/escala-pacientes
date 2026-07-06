@@ -10,7 +10,28 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: "/escala-pacientes/",
   plugins: [react(), tailwindcss(), VitePWA({
-    registerType: "autoUpdate"
+    registerType: "autoUpdate",
+    manifest: {
+        name: "Escala Pacientes",
+        short_name: "Escala",
+        start_url: "/escala-pacientes/",
+        scope: "/escala-pacientes/",
+        display: "standalone",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        icons: [
+          {
+            src: "ufsm-192.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "ufsm-512.png",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      }
   })],
   resolve: {
     alias: {
