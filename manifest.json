@@ -1,7 +1,7 @@
 {
   "name": "Escala Pacientes",
   "short_name": "EscalaPacientes",
-  "start_url": "/",
+  "start_url": "/escala-pacientes/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1976d2",
