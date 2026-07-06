@@ -4,7 +4,15 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { BoneFracture, Brain, Footprints, History, SmilePlus, Users } from "lucide-react"
+import {
+  BoneFracture,
+  Brain,
+  Footprints,
+  History,
+  SmilePlus,
+  Users,
+} from "lucide-react"
+
 import Glasgow from "../Glasgow/Glasgow"
 import Braden from "../Braden/Braden"
 import Morse from "../Morse/Morse"
@@ -12,56 +20,72 @@ import Fugulin from "../Fugulin/Fugulin"
 import Dor from "../Dor/Dor"
 import Historico from "../Historico/Historico"
 
+const tabs = [
+  {
+    value: "glasgow",
+    label: "Glasgow",
+    icon: Brain,
+    component: <Glasgow />,
+  },
+  {
+    value: "braden",
+    label: "Braden",
+    icon: BoneFracture,
+    component: <Braden />,
+  },
+  {
+    value: "morse",
+    label: "Morse",
+    icon: Footprints,
+    component: <Morse />,
+  },
+  {
+    value: "fugulin",
+    label: "Fugulin",
+    icon: Users,
+    component: <Fugulin />,
+  },
+  {
+    value: "dor",
+    label: "Dor",
+    icon: SmilePlus,
+    component: <Dor />,
+  },
+  {
+    value: "historico",
+    label: "Histórico",
+    icon: History,
+    component: <Historico />,
+  },
+]
+
 export default function Home() {
   return (
     <main className="flex min-h-screen justify-center p-5 md:p-10">
-      <Tabs defaultValue="glasgow" className="w-full sm:max-w-[90dvw] lg:max-w-[50dvw]">
-        <div className="overflow-x-auto overflow-y-hidden">
-          <TabsList className="inline-flex w-max min-w-full">
-            <TabsTrigger value="glasgow" className="cursor-pointer">
-              <Brain /> Glasgow
-            </TabsTrigger>
-            <TabsTrigger value="braden" className="cursor-pointer">
-              <BoneFracture /> Braden
-            </TabsTrigger>
-            <TabsTrigger value="morse" className="cursor-pointer">
-              <Footprints /> Morse
-            </TabsTrigger>
-            <TabsTrigger value="fugulin" className="cursor-pointer">
-              <Users /> Fugulin
-            </TabsTrigger>
-            <TabsTrigger value="dor" className="cursor-pointer">
-              <SmilePlus /> Dor
-            </TabsTrigger>
-            <TabsTrigger value="historico" className="cursor-pointer">
-              <History /> Histórico
-            </TabsTrigger>
+      <Tabs
+        defaultValue={tabs[0].value}
+        className="w-full sm:max-w-[90dvw] lg:max-w-[50dvw]"
+      >
+        <div className="h-auto">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto">
+            {tabs.map(({ value, label, icon: Icon }) => (
+              <TabsTrigger
+                key={value}
+                value={value}
+                className="flex items-center justify-center gap-2 py-2 cursor-pointer"
+              >
+                <Icon className="h-4 w-4" />
+                <span>{label}</span>
+              </TabsTrigger>
+            ))}
           </TabsList>
         </div>
 
-        <TabsContent value="glasgow">
-          <Glasgow />
-        </TabsContent>
-
-        <TabsContent value="braden">
-          <Braden />
-        </TabsContent>
-
-        <TabsContent value="morse">
-          <Morse />
-        </TabsContent>
-
-        <TabsContent value="fugulin">
-          <Fugulin />
-        </TabsContent>
-
-        <TabsContent value="dor">
-          <Dor />
-        </TabsContent>
-
-        <TabsContent value="historico">
-          <Historico />
-        </TabsContent>
+        {tabs.map(({ value, component }) => (
+          <TabsContent key={value} value={value}>
+            {component}
+          </TabsContent>
+        ))}
       </Tabs>
     </main>
   )

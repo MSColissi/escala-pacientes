@@ -105,7 +105,7 @@ export default function Historico() {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ScrollArea className="h-full sm:h-[60dvh] w-full">
+          <ScrollArea className="h-full sm:h-[75dvh] w-full">
             {historicoGlasgow.length > 0 &&
               <>
                 <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-2">

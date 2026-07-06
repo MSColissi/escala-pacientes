@@ -97,7 +97,7 @@ export default function Glasgow() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[60dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[65dvh] w-full">
           <FormEscala
             escalas={escalasGlasgow}
             respostas={respostas}

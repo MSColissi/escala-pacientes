@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator";
 
 import { SquareArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -14,14 +15,21 @@ import { Link } from "react-router-dom";
 export default function Inicio() {
   return (
     <main className="flex flex-col min-h-screen items-center justify-center gap-2">
-      <Card className="mx-auto w-full max-w-sm">
+      <Card className="mx-auto w-full max-w-[90vw] sm:max-w-sm">
         <CardHeader>
-          <CardTitle className="text-3xl">Projeto de Mestrado</CardTitle>
+          <div className="flex gap-2 items-center">
+            <img
+              src={`${import.meta.env.BASE_URL}ufsm-192.png`}
+              alt="UFSM logo"
+              className="w-25"
+            />  
+            <CardTitle className="text-3xl">Projeto de Mestrado</CardTitle>
+          </div>
           <CardDescription>
             Mestranda: Fernanda Tavani Soares
           </CardDescription>
         </CardHeader>
-
+        <Separator />
         <CardContent>
           <p className="text-justify">
             A <strong>Escala de Coma de Glasgow (ECG)</strong> é uma ferramenta clínica padronizada que avalia o nível de consciência de um paciente, especialmente após traumas cranioencefálicos (TCE). A pontuação varia de <strong>3 a 15</strong>, baseada em três respostas principais: <strong>Abertura Ocular</strong>, <strong>Resposta Verbal</strong> e <strong>Resposta Motora</strong>.
@@ -29,7 +37,7 @@ export default function Inicio() {
         </CardContent>
         
         <CardFooter>
-          <Button variant="outline" size="sm" className="w-full" asChild>
+          <Button size="sm" className="w-full" asChild>
             <Link to="/home">
               Iniciar <SquareArrowRight />
             </Link>
