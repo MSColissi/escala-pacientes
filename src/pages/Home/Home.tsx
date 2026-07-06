@@ -66,20 +66,18 @@ export default function Home() {
         defaultValue={tabs[0].value}
         className="w-full sm:max-w-[90dvw] lg:max-w-[50dvw]"
       >
-        <div className="h-auto">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto">
-            {tabs.map(({ value, label, icon: Icon }) => (
-              <TabsTrigger
-                key={value}
-                value={value}
-                className="flex items-center justify-center gap-2 py-2 cursor-pointer"
-              >
-                <Icon className="h-4 w-4" />
-                <span>{label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto!">
+          {tabs.map(({ value, label, icon: Icon }) => (
+            <TabsTrigger
+              key={value}
+              value={value}
+              className="flex items-center justify-center gap-2 py-2 cursor-pointer"
+            >
+              <Icon className="h-4 w-4" />
+              <span>{label}</span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
         {tabs.map(({ value, component }) => (
           <TabsContent key={value} value={value}>
