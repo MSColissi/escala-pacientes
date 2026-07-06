@@ -9,9 +9,14 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   base: "/escala-pacientes/",
-  plugins: [react(), tailwindcss(), VitePWA({
-    registerType: "autoUpdate",
-    manifest: {
+  plugins: [
+    react(), 
+    tailwindcss(), 
+    VitePWA({
+      registerType: "autoUpdate",
+      injectRegister: "auto",
+      base: "/escala-pacientes/",
+      manifest: {
         name: "Escala Pacientes",
         short_name: "Escala",
         start_url: "/escala-pacientes/",
@@ -32,7 +37,8 @@ export default defineConfig({
           }
         ]
       }
-  })],
+    })
+  ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
