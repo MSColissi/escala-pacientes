@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/escala-pacientes/",
   plugins: [react(), tailwindcss(), VitePWA({
     registerType: "autoUpdate"
   })],

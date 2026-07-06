@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppRoutes />
       <Toaster />
     </BrowserRouter>
