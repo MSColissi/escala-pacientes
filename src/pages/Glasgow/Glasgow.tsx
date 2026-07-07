@@ -97,7 +97,7 @@ export default function Glasgow() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[65dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
           <FormEscala
             escalas={escalasGlasgow}
             respostas={respostas}
@@ -171,7 +171,7 @@ export default function Glasgow() {
               scrollTop(scrollAreaRef);
             }}
           >
-            <Button variant="outline" size="sm" className="cursor-pointer" disabled={historico.length == 0}>
+            <Button variant="outline" className="cursor-pointer" disabled={historico.length == 0}>
               <ClipboardClock />
               Histórico
             </Button>

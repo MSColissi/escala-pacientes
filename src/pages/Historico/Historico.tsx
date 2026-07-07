@@ -423,9 +423,11 @@ export default function Historico() {
         onOpenChange={setDialogVisualizar}
       >
         <DialogContent showCloseButton={false}>
-          <pre className="whitespace-pre-wrap rounded-md bg-muted p-4 text-sm">
-            {mensagem || "Nenhum conteúdo encontrado."}
-          </pre>
+          <ScrollArea className="max-h-[80dvw] w-full">
+            <pre className="whitespace-pre-wrap rounded-md bg-muted p-2 text-sm">
+              {mensagem || "Nenhum conteúdo encontrado."}
+            </pre>
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     </Card>

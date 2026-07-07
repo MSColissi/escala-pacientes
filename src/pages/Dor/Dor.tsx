@@ -181,7 +181,7 @@ export default function Dor() {
               setDrawerOpen(false);
             }}
           >
-            <Button variant="outline" size="sm" className="cursor-pointer" disabled={historico.length == 0}>
+            <Button variant="outline" className="cursor-pointer" disabled={historico.length == 0}>
               <ClipboardClock />
               Histórico
             </Button>

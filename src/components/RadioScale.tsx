@@ -42,9 +42,9 @@ export function RadioScale({
   return (
     <fieldset 
       ref={fieldsetRef}
-      className="space-y-3"
+      className="space-y-3 scroll-mt-2.5"
     >
-      <legend className="mb-3 flex items-center gap-2 text-base font-semibold text-primary">
+      <legend className="mb-3 flex items-center gap-2 text-base font-semibold bg-primary w-full text-white p-2 rounded">
         <Icon className="size-5" />
         {escala.item}
       </legend>

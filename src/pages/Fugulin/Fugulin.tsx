@@ -99,7 +99,7 @@ export default function Fugulin() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[65dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
           <FormEscala
             escalas={escalasFugulin}
             respostas={respostas}
@@ -173,7 +173,7 @@ export default function Fugulin() {
               scrollTop(scrollAreaRef);
             }}
           >
-            <Button variant="outline" size="sm" className="cursor-pointer" disabled={historico.length == 0}>
+            <Button variant="outline" className="cursor-pointer" disabled={historico.length == 0}>
               <ClipboardClock />
               Histórico
             </Button>

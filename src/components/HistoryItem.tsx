@@ -18,9 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Copy, Menu, Trash2Icon, Timer, Users } from "lucide-react";
 import type { Historico } from "@/types/historico";
 import type { TiposEscala } from "@/types/escala";
-import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
-
 
 interface HistoryItemProps {
   escala: TiposEscala;
@@ -77,6 +75,18 @@ export function HistoryItem({
       `}
     >
       <div className="grid items-center w-full">
+        {item.hora && <div className="pb-2">
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="default">
+              <Timer />
+              {item.hora}
+            </Badge>
+            <Badge variant="default">
+              <Users />
+              {item.proporcao}
+            </Badge>  
+          </div>
+        </div>}
         <div
           className="flex flex-1 gap-2 items-center text-left cursor-pointer"
           onClick={() => onVisualizar(item)}
@@ -135,20 +145,6 @@ export function HistoryItem({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
-        {item.hora && <div className="pt-2">
-          <Separator />
-          <ul className="flex flex-wrap gap-2 pt-2">
-            <Badge variant="outline">
-              <Timer />
-              {item.hora}
-            </Badge>
-            <Badge variant="outline">
-              <Users />
-              {item.proporcao}
-            </Badge>  
-          </ul>
-        </div>}
       </div>
     </Item>
   );

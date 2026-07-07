@@ -44,7 +44,6 @@ export function ScoreSummary({
       <div className="flex flex-col sm:flex-row gap-2 justify-between w-full sm:justify-end">
         <Button
           variant="outline"
-          size="sm"
           className="cursor-pointer"
           onClick={onReset}
         >
@@ -56,7 +55,6 @@ export function ScoreSummary({
 
         <Button
           variant="default"
-          size="sm"
           className="cursor-pointer"
           onClick={onSave}
           disabled={!formularioCompleto}

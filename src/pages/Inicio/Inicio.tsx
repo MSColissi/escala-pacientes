@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 export default function Inicio() {
   return (
-    <main className="flex flex-col min-h-screen items-center justify-center gap-2">
+    <main className="flex flex-col min-h-dvh items-center justify-center gap-2">
       <Card className="mx-auto w-full max-w-[90vw] sm:max-w-sm">
         <CardHeader>
           <div className="flex gap-2 items-center">

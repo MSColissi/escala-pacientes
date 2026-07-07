@@ -21,7 +21,7 @@ export function HistoryResume({
     <div className="space-y-2">
       {showResumo && (
         <h3 className="text-center font-bold">
-          Resumo {escala === "Glasgow" ? "Glasgow" : escala === "Braden" ? "Braden" : escala === "Fugulin" ? "Fugulin" : "Dor"}
+          Resumo {escala}
         </h3>
       )}
 
@@ -29,7 +29,7 @@ export function HistoryResume({
         {itens.map((item) => (
           <div
             key={item.label}
-            className={`grid flex-1 p-2 rounded text-center text-white ${item.color} h-20 items-center justify-center`}
+            className={`grid flex-1 p-2 rounded text-center text-white ${item.color} h-22 items-center justify-center`}
           >
             <span className="text-lg font-bold">{item.value}</span>
             <span className="text-xs">{item.label}</span>
