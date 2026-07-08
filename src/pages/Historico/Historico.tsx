@@ -6,9 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { ItemGroup } from "@/components/ui/item";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useBradenHistory, useDorHistory, useFugulinHistory, useGlasgowHistory, useMorseHistory } from "@/hooks/useHistory";
-import { copiarItemBraden, copiarItemDor, copiarItemFugulin, copiarItemGlashow, copiarItemMorse } from "@/utils/clipboard";
-import { calcularResumoBraden, calcularResumoDor, calcularResumoFugulin, calcularResumoGlasgow, calcularResumoMorse } from "@/utils/resumo";
+import { useBradenHistory, useDorHistory, useFrailHistory, useFugulinHistory, useGlasgowHistory, useMorseHistory } from "@/hooks/useHistory";
+import { copiarItemBraden, copiarItemDor, copiarItemFrail, copiarItemFugulin, copiarItemGlashow, copiarItemMorse } from "@/utils/clipboard";
+import { calcularResumoBraden, calcularResumoDor, calcularResumoFrail, calcularResumoFugulin, calcularResumoGlasgow, calcularResumoMorse } from "@/utils/resumo";
 import { Inbox, Trash } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -58,10 +58,18 @@ export default function Historico() {
 
   const resumoDor = useMemo(() => calcularResumoDor(historicoDor), [historicoDor]);
 
+  const {
+    historico: historicoFrail,
+    remover: removerFrail,
+    limpar: limparFrail,
+  } = useFrailHistory();
+
+  const resumoFrail = useMemo(() => calcularResumoFrail(historicoFrail), [historicoFrail]);
+
   const [mensagem, setMensagem] = useState("");
   const [dialogVisualizar, setDialogVisualizar] = useState(false);
 
-  const isHistoricoVazio = historicoGlasgow.length === 0 && historicoBraden.length === 0 && historicoMorse.length === 0 && historicoFugulin.length === 0 && historicoDor.length === 0;
+  const isHistoricoVazio = historicoGlasgow.length === 0 && historicoBraden.length === 0 && historicoMorse.length === 0 && historicoFugulin.length === 0 && historicoDor.length === 0 && historicoFrail.length === 0;
 
   return (
     <Card size="sm" className="w-full max-w-5xl">
@@ -78,6 +86,7 @@ export default function Historico() {
                 limparMorse()
                 limparFugulin()
                 limparDor()
+                limparFrail()
 
                 toast.success("Histórico de escores removido", {
                   description: `Todos os escores foram removidos`
@@ -136,7 +145,7 @@ export default function Historico() {
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoBraden.map((item) => (
+                    {historicoGlasgow.map((item) => (
                       <HistoryItem
                         escala="Glasgow"
                         key={item.id}
@@ -405,6 +414,63 @@ export default function Historico() {
                           removerDor(item.id);
 
                           toast.success("Escore de dor removido", {
+                            description: `Escore ${item.id} removido`
+                          });
+                        }}
+                      />
+                    ))}
+                  </ItemGroup>
+                </div>
+              </>
+            }
+
+            {historicoFrail.length > 0 &&
+              <>
+                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                  Escala de Frail
+                </h2>
+
+                <div className="px-2">
+                  <HistoryResume
+                    escala="Frail"
+                    itens={[
+                      {
+                        label: "Robusto",
+                        value: resumoFrail.robusto,
+                        color: "bg-green-600",
+                      },
+                      {
+                        label: "Pré-frágil",
+                        value: resumoFrail.preFragil,
+                        color: "bg-yellow-600",
+                      },
+                      {
+                        label: "Frágil",
+                        value: resumoFrail.fragil,
+                        color: "bg-amber-600",
+                      }
+                    ]}
+                    showResumo={false}
+                  />
+
+                  <ItemGroup className="gap-4 px-2">
+                    {historicoFrail.map((item) => (
+                      <HistoryItem
+                        escala="Frail"
+                        key={item.id}
+                        item={item}
+                        onVisualizar={async (item) => {
+                          const texto = await copiarItemFrail(item, false)
+                          setMensagem(texto)
+                          setDialogVisualizar(true)
+                        }}
+                        onCopiar={(item) => {
+                          copiarItemFrail(item)
+                        }}
+                        onRemover={(item) => {
+                          removerFrail(item.id);
+
+                          toast.success("Escore de Frail removido", {
                             description: `Escore ${item.id} removido`
                           });
                         }}

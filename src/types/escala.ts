@@ -9,6 +9,7 @@ export interface Escala {
   id: number;
   icon: LucideIcon;
   item: string;
+  subItem?: string;
   itens: EscalaItem[];
 }
 
@@ -21,4 +22,4 @@ export interface EscalaDor {
   color: string;
 }
 
-export type TiposEscala = "Glasgow" | "Braden" | "Morse" | "Fugulin" | "Dor";
+export type TiposEscala = "Glasgow" | "Braden" | "Morse" | "Fugulin" | "Dor" | "Frail";

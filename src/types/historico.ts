@@ -3,9 +3,10 @@ export interface Historico {
   data: string;
   total: number;
   classificacao: string;
+  respostas: Record<number, number>;
   hora?: string;
   proporcao?: string;
-  respostas: Record<number, number>;
+  reavaliacao?: string;
 }
 
 export interface HistoricoDor {

@@ -61,6 +61,12 @@ interface HistoryDrawerProps {
     intensivo: number;
   };
 
+  resumoFrail?: {
+    robusto: number;
+    preFragil: number;
+    fragil: number;
+  },
+
   openDeleteHistory: boolean;
   onOpenDeleteHistoryChange: (open: boolean) => void;
 
@@ -87,6 +93,7 @@ export function HistoryDrawer({
   resumoBraden,
   resumoMorse,
   resumoFugulin,
+  resumoFrail,
 
   openDeleteHistory,
 
@@ -189,57 +196,79 @@ export function HistoryDrawer({
                   />
                 : resumoMorse 
                   ?
-                  <HistoryResume
-                    escala="Morse"
-                    itens={[
-                      {
-                        label: "Risco baixo",
-                        value: resumoMorse.baixo,
-                        color: "bg-green-600",
-                      },
-                      {
-                        label: "Risco moderado",
-                        value: resumoMorse.moderado,
-                        color: "bg-yellow-600",
-                      },
-                      {
-                        label: "Trauma elevado",
-                        value: resumoMorse.elevado,
-                        color: "bg-red-600",
-                      },
-                    ]}
-                  />                
-                : resumoFugulin &&
-                  <HistoryResume
-                    escala="Fugulin"
-                    itens={[
-                      {
-                        label: "Cuidado mínimo",
-                        value: resumoFugulin.minimo,
-                        color: "bg-green-600",
-                      },
-                      {
-                        label: "Cuidado intermediário",
-                        value: resumoFugulin.intermediario,
-                        color: "bg-yellow-600",
-                      },
-                      {
-                        label: "Alta dependência",
-                        value: resumoFugulin.altaDependencia,
-                        color: "bg-amber-600",
-                      },
-                      {
-                        label: "Cuidado semi-intensivo",
-                        value: resumoFugulin.semiIntensivo,
-                        color: "bg-orange-600",
-                      },
-                      {
-                        label: "Cuidado intensivo",
-                        value: resumoFugulin.intensivo,
-                        color: "bg-red-700",
-                      },
-                    ]}
-                  />
+                    <HistoryResume
+                      escala="Morse"
+                      itens={[
+                        {
+                          label: "Risco baixo",
+                          value: resumoMorse.baixo,
+                          color: "bg-green-600",
+                        },
+                        {
+                          label: "Risco moderado",
+                          value: resumoMorse.moderado,
+                          color: "bg-yellow-600",
+                        },
+                        {
+                          label: "Trauma elevado",
+                          value: resumoMorse.elevado,
+                          color: "bg-red-600",
+                        },
+                      ]}
+                    />                
+                  : resumoFugulin 
+                    ?
+                      <HistoryResume
+                        escala="Fugulin"
+                        itens={[
+                          {
+                            label: "Cuidado mínimo",
+                            value: resumoFugulin.minimo,
+                            color: "bg-green-600",
+                          },
+                          {
+                            label: "Cuidado intermediário",
+                            value: resumoFugulin.intermediario,
+                            color: "bg-yellow-600",
+                          },
+                          {
+                            label: "Alta dependência",
+                            value: resumoFugulin.altaDependencia,
+                            color: "bg-amber-600",
+                          },
+                          {
+                            label: "Cuidado semi-intensivo",
+                            value: resumoFugulin.semiIntensivo,
+                            color: "bg-orange-600",
+                          },
+                          {
+                            label: "Cuidado intensivo",
+                            value: resumoFugulin.intensivo,
+                            color: "bg-red-700",
+                          },
+                        ]}
+                      />
+                    : resumoFrail &&
+                      <HistoryResume
+                        escala="Frail"
+                        itens={[
+                          {
+                            label: "Robusto",
+                            value: resumoFrail.robusto,
+                            color: "bg-green-600",
+                          },
+                          {
+                            label: "Pré-frágil",
+                            value: resumoFrail.preFragil,
+                            color: "bg-yellow-600",
+                          },
+                          {
+                            label: "Frágil",
+                            value: resumoFrail.fragil,
+                            color: "bg-amber-600",
+                          }
+                        ]}
+                      />
             }
 
             <Separator />

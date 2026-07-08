@@ -3,6 +3,7 @@ export interface Classificacao {
   color: string;
   hora?: string;
   proporcao?: string;
+  reavaliacao?: string;
 }
 
 export function getClassificacaoGlasgow(total: number): Classificacao {
@@ -43,15 +44,17 @@ export function getClassificacaoBraden(total: number): Classificacao {
 
   if (total <= 9) {
     return {
-      texto: "Risco muito alto",
+      texto: "Risco muito elevado",
       color: "text-red-700",
+      reavaliacao: "24h"
     };
   }
 
   if (total <= 12) {
     return {
-      texto: "Risco alto",
+      texto: "Risco elevado",
       color: "text-orange-600",
+      reavaliacao: "24h"
     };
   }
 
@@ -59,6 +62,7 @@ export function getClassificacaoBraden(total: number): Classificacao {
     return {
       texto: "Risco moderado",
       color: "text-amber-600",
+      reavaliacao: "24h"
     };
   }
 
@@ -66,12 +70,14 @@ export function getClassificacaoBraden(total: number): Classificacao {
     return {
       texto: "Risco baixo",
       color: "text-yellow-600",
+      reavaliacao: "72h"
     };
   }
 
   return {
     texto: "Sem risco",
     color: "text-green-600",
+    reavaliacao: "72h"
   };
 }
 
@@ -87,6 +93,7 @@ export function getClassificacaoMorse(total: number): Classificacao {
     return {
       texto: "Risco baixo",
       color: "text-green-600",
+      reavaliacao: "72h"
     };
   }
 
@@ -94,12 +101,14 @@ export function getClassificacaoMorse(total: number): Classificacao {
     return {
       texto: "Risco moderado",
       color: "text-yellow-600",
+      reavaliacao: "72h"
     };
   }
 
   return {
     texto: "Trauma Elevado",
     color: "text-red-600",
+    reavaliacao: "24h"
   };
 }
 
@@ -115,8 +124,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado mínimo (paciente estável, autocuidado)",
       color: "text-green-600",
-      hora: "4h nas 24h",
-      proporcao: "1 enf./6 pac.",
+      hora: "4h",
+      proporcao: "1 / 6",
     };
   }
 
@@ -124,8 +133,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado intermediário (necessita de assistência em alguns momentos)",
       color: "text-yellow-600",
-      hora: "6h nas 24h",
-      proporcao: "1 enf./4 pac.",
+      hora: "6h",
+      proporcao: "1 / 4",
     };
   }
 
@@ -133,8 +142,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Alta dependência (dependência maior para atividades diárias)",
       color: "text-amber-600",
-      hora: "10h nas 24h",
-      proporcao: "1 enf./2,4 pac.",
+      hora: "10h",
+      proporcao: "1 / 2,4",
     };
   }
 
@@ -142,16 +151,16 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado semi-intensivo",
       color: "text-orange-600",
-      hora: "6h nas 24h",
-      proporcao: "1 enf./2,4 pac.",
+      hora: "6h",
+      proporcao: "1 / 2,4",
     };
   }
 
   return {
     texto: "Cuidado intensivo (pacientes gravemente instáveis)",
     color: "text-red-700",
-    hora: "18h nas 24h",
-    proporcao: "1 enf./1,33 pac.",
+    hora: "18h",
+    proporcao: "1 / 1,33",
   };
 }
 
@@ -186,6 +195,34 @@ export function getClassificacaoDor(total: number | undefined): Classificacao {
 
   return {
     texto: "Dor intensa ou severa",
+    color: "text-red-600",
+  };
+}
+
+export function getClassificacaoFrail(total: number | undefined): Classificacao {
+  if (total === undefined) {
+    return {
+      texto: "Sem avaliação",
+      color: "text-muted-foreground",
+    };
+  }
+
+  if (total === 0) {
+    return {
+      texto: "Robusto",
+      color: "text-green-600",
+    };
+  }
+
+  if (total <= 3) {
+    return {
+      texto: "Pré-frágil",
+      color: "text-yellow-600",
+    };
+  }
+
+  return {
+    texto: "Frágil",
     color: "text-red-600",
   };
 }

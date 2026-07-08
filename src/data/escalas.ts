@@ -1,5 +1,5 @@
 import type { Escala, EscalaDor } from "@/types/escala";
-import { Activity, Accessibility, BicepsFlexed, Brain, ClipboardClock, Droplets, FilePenLine, Salad, ShieldAlert, Siren, Speech, SportShoe, Syringe, View, Wind, Footprints, ShowerHead, Toilet, Tablets, Bandage, Blend, Timer, Smile, Laugh, Meh, Frown } from "lucide-react";
+import { Activity, Accessibility, BicepsFlexed, Brain, ClipboardClock, Droplets, FilePenLine, Salad, ShieldAlert, Siren, Speech, SportShoe, Syringe, View, Wind, Footprints, ShowerHead, Toilet, Tablets, Bandage, Blend, Timer, Smile, Laugh, Meh, Frown, Gauge, ScanHeart, Stethoscope } from "lucide-react";
 
 export const escalasGlasgow: Escala[] = [
   {
@@ -48,7 +48,7 @@ export const escalasBraden: Escala[] = [
     itens: [
       { item: "Totalmente limitado", pontos: 1 },
       { item: "Muito limitado", pontos: 2 },
-      { item: "Ligeiramente limitado", pontos: 3 },
+      { item: "Levemente limitado", pontos: 3 },
       { item: "Nenhuma limitação", pontos: 4 },
     ],
   },
@@ -57,10 +57,10 @@ export const escalasBraden: Escala[] = [
     icon: Droplets,
     item: "Umidade",
     itens: [
-      { item: "Constantemente úmida", pontos: 1 },
-      { item: "Muito úmida", pontos: 2 },
-      { item: "Ocasionalmente úmida", pontos: 3 },
-      { item: "Raramente úmida", pontos: 4 },
+      { item: "Constantemente molhada", pontos: 1 },
+      { item: "Muito molhada", pontos: 2 },
+      { item: "Ocasionalmente molhada", pontos: 3 },
+      { item: "Raramente molhada", pontos: 4 },
     ],
   },
   {
@@ -70,8 +70,8 @@ export const escalasBraden: Escala[] = [
     itens: [
       { item: "Acamado", pontos: 1 },
       { item: "Confinado à cadeira", pontos: 2 },
-      { item: "Deambula ocasionalmente", pontos: 3 },
-      { item: "Deambula frequentemente", pontos: 4 },
+      { item: "Anda ocasionalmente", pontos: 3 },
+      { item: "Anda frequentemente", pontos: 4 },
     ],
   },
   {
@@ -80,9 +80,9 @@ export const escalasBraden: Escala[] = [
     item: "Mobilidade",
     itens: [
       { item: "Totalmente imóvel", pontos: 1 },
-      { item: "Muito limitada", pontos: 2 },
-      { item: "Ligeiramente limitada", pontos: 3 },
-      { item: "Nenhuma limitação", pontos: 4 },
+      { item: "Bastante limitado", pontos: 2 },
+      { item: "Levemente limitado", pontos: 3 },
+      { item: "Não apresenta limitação", pontos: 4 },
     ],
   },
   {
@@ -91,8 +91,8 @@ export const escalasBraden: Escala[] = [
     item: "Nutricao",
     itens: [
       { item: "Muito pobre", pontos: 1 },
-      { item: "Provavelmente inadequada", pontos: 2 },
-      { item: "Adequada", pontos: 3 },
+      { item: "Provavelmente inadequado", pontos: 2 },
+      { item: "Adequado", pontos: 3 },
       { item: "Excelente", pontos: 4 },
     ],
   },
@@ -103,7 +103,7 @@ export const escalasBraden: Escala[] = [
     itens: [
       { item: "Problema", pontos: 1 },
       { item: "Problema potencial", pontos: 2 },
-      { item: "Nehum problema aparente", pontos: 3 },
+      { item: "Nehum problema", pontos: 3 },
     ],
   },
 ];
@@ -132,9 +132,9 @@ export const escalasMorse: Escala[] = [
     icon: Accessibility,
     item: "Auxílio na marcha",
     itens: [
-      { item: "Nenhum/Acamado/Cadeira de rodas", pontos: 0 },
+      { item: "Nenhum/Acamado/Auxiliado por profissional da saúde", pontos: 0 },
       { item: "Muletas/Bengala/Andador", pontos: 15 },
-      { item: "Mobiliário", pontos: 30 },
+      { item: "Mobiliário/Parede", pontos: 30 },
     ],
   },
   {
@@ -151,7 +151,7 @@ export const escalasMorse: Escala[] = [
     icon: Accessibility,
     item: "Marcha",
     itens: [
-      { item: "Normal/Acamado/Cadeira de rodas", pontos: 0 },
+      { item: "Normal/Sem deambulação/Acamado/Cadeira de Rodas", pontos: 0 },
       { item: "Fraca", pontos: 10 },
       { item: "Comprometida/Cambaleante", pontos: 20 },
     ],
@@ -161,8 +161,8 @@ export const escalasMorse: Escala[] = [
     icon: Brain,
     item: "Estado mental",
     itens: [
-      { item: "Orientado quanto às suas capacidades/limitações", pontos: 0 },
-      { item: "Superestima capacidades/Esquece limitações", pontos: 15 },
+      { item: "Orientado/Capaz quanto à sua capacidade/limitação   ", pontos: 0 },
+      { item: "Superestima capacidade/Esquece limitações", pontos: 15 },
     ],
   },
 ];
@@ -336,3 +336,52 @@ export const escalasDor: EscalaDor[] = [
     color: "text-red-600"
   },
 ]
+
+export const escalasFrail: Escala[] = [
+  {
+    id: 1,
+    icon: Accessibility,
+    item: "Marcha",
+    subItem: "No último mês, você conseguiu andar um quarteirão sem dificuldades?",
+    itens: [
+      { item: "Sim", pontos: 0 },
+      { item: "Não", pontos: 1 },
+    ],
+  }, {
+    id: 2,
+    icon: BicepsFlexed,
+    item: "Força",
+    subItem: "No último mês, você conseguiu subir um lance de escada sem dificuldade?",
+    itens: [
+      { item: "Não", pontos: 0 },
+      { item: "Sim", pontos: 1 },
+    ],
+  }, {
+    id: 3,
+    icon: ScanHeart,
+    item: "Fadiga",
+    subItem: "No último mês, você sentiu-se cansado na maior parte do tempo?",
+    itens: [
+      { item: "Não", pontos: 0 },
+      { item: "Sim", pontos: 1 },
+    ],
+  }, {
+    id: 4,
+    icon: Gauge,
+    item: "Perda ponderal",
+    subItem: "No último ano, você perdeu peso? (Considerar 3kg ou mais)",
+    itens: [
+      { item: "Não", pontos: 0 },
+      { item: "Sim", pontos: 1 },
+    ],
+  }, {
+    id: 5,
+    icon: Stethoscope,
+    item: "Multimorbidades",
+    subItem: "Presença de três ou mais diagnósticos médicos?",
+    itens: [
+      { item: "Não", pontos: 0 },
+      { item: "Sim", pontos: 1 },
+    ],
+  }
+];

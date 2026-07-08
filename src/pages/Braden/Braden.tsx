@@ -40,7 +40,7 @@ export default function Braden() {
   const total = Object.values(respostas).reduce((acc, valor) => acc + valor, 0);
 
   const classificacao = getClassificacaoBraden(total);
-
+  
   const formularioCompleto = escalasBraden.every(
     (escala) => respostas[escala.id] !== undefined,
   );
@@ -56,6 +56,7 @@ export default function Braden() {
       respostas,
       total,
       classificacao: classificacao.texto,
+      reavaliacao: classificacao.reavaliacao
     };
 
     salvar(resultado);
@@ -92,7 +93,7 @@ export default function Braden() {
           </div>
         </CardTitle>
         <CardDescription>
-          Avaliação de risco para desenvolvimento de lesão por pressão.
+          A Escala de Braden avalia o risco de lesões por pressão. Deve ser aplicada em até 8h da admissão do paciente.
         </CardDescription>
       </CardHeader>
 

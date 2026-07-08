@@ -49,6 +49,10 @@ export function RadioScale({
         {escala.item}
       </legend>
 
+      {escala.subItem &&
+        <h3>{escala.subItem}</h3>
+      }
+
       <RadioGroup
         name={String(escala.id)}
         value={value !== undefined ? String(value) : ""}

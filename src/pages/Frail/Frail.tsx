@@ -13,23 +13,23 @@ import { ClipboardClock } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { Historico } from "../../types/historico";
+import { escalasFrail } from "@/data/escalas";
 import { FormEscala } from "@/components/FormEscala";
 import { ScoreSummary } from "@/components/ScoreSummary";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
-import { useMorseHistory } from "@/hooks/useHistory";
-import { escalasMorse } from "@/data/escalas";
-import { getClassificacaoMorse } from "@/utils/classificacao";
-import { copiarItemMorse } from "@/utils/clipboard";
+import { useFrailHistory } from "@/hooks/useHistory";
+import { getClassificacaoFrail } from "@/utils/classificacao";
+import { copiarItemFrail } from "@/utils/clipboard";
 import { scrollTop } from "@/utils/utilitarios";
-import { calcularResumoMorse } from "@/utils/resumo";
+import { calcularResumoFrail } from "@/utils/resumo";
 
-export default function Morse() {
+export default function Frail() {
   const {
     historico,
     salvar,
     remover,
     limpar,
-  } = useMorseHistory();
+  } = useFrailHistory();
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,9 +39,9 @@ export default function Morse() {
 
   const total = Object.values(respostas).reduce((acc, valor) => acc + valor, 0);
 
-  const classificacao = getClassificacaoMorse(total);
-
-  const formularioCompleto = escalasMorse.every(
+  const classificacao = getClassificacaoFrail(total);
+  
+  const formularioCompleto = escalasFrail.every(
     (escala) => respostas[escala.id] !== undefined,
   );
 
@@ -55,13 +55,12 @@ export default function Morse() {
       data: new Date().toLocaleString("pt-BR"),
       respostas,
       total,
-      classificacao: classificacao.texto,
-      reavaliacao: classificacao.reavaliacao
+      classificacao: classificacao.texto
     };
 
     salvar(resultado);
 
-    toast.success(itemSelecionado ? "Escore de Morse atualizado" : "Escore de Morse armazenado", {
+    toast.success(itemSelecionado ? "Escore de Frail atualizado" : "Escore de Frail armazenado", {
       description: itemSelecionado
         ? `${itemSelecionado.id} foi atualizado`
         : "Para visualizar, clique no botão Histórico",
@@ -77,14 +76,14 @@ export default function Morse() {
     scrollTop(scrollAreaRef);
   };
 
-  const resumo = useMemo(() => calcularResumoMorse(historico), [historico]);
+  const resumo = useMemo(() => calcularResumoFrail(historico), [historico]);
 
   return (
     <Card size="sm" className="w-full max-w-5xl">
       <CardHeader>
         <CardTitle className="font-bold">
           <div className="flex justify-between">
-            <h1>Escala de Morse</h1>
+            <h1>Escala de Frail</h1>
             {itemSelecionado && (
               <span className="font-normal text-right">
                 Visualizando item: {itemSelecionado.id}
@@ -93,14 +92,14 @@ export default function Morse() {
           </div>
         </CardTitle>
         <CardDescription>
-          A Morse Fall Scale (MFS - B) avalia o risco de quedas. Deve ser aplicada em até 8h da admissão do paciente.
+          Aplicada a toda pessoa idosa (+/- 60 anos) na admissão. Objetivo de identificar idosos frágeis que se beneficiam do modelo.
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
           <FormEscala
-            escalas={escalasMorse}
+            escalas={escalasFrail}
             respostas={respostas}
             onChange={(escalaId, pontos) =>
               setRespostas((prev) => ({
@@ -127,11 +126,11 @@ export default function Morse() {
           editando={itemSelecionado ? true : false}
         >
           <HistoryDrawer
-            escala="Morse"
+            escala="Frail"
             open={drawerOpen}
             onOpenChange={setDrawerOpen}
             historico={historico}
-            resumoMorse={resumo}
+            resumoFrail={resumo}
             openDeleteHistory={openDeleteHistory}
             onOpenDeleteHistoryChange={setOpenDeleteHistory}
             onVisualizar={(item) => {
@@ -139,7 +138,7 @@ export default function Morse() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemMorse(item)
+              copiarItemFrail(item)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);
@@ -147,7 +146,7 @@ export default function Morse() {
               setRespostas({});
               setItemSelecionado(null);
 
-              toast.success("Escore de Morse removido", {
+              toast.success("Escore de Frail removido", {
                 description: `Escore ${item.id} removido`,
               });
             }}
@@ -160,7 +159,7 @@ export default function Morse() {
 
               setDrawerOpen(false);
 
-              toast.success("Histórico de Morse removido", {
+              toast.success("Histórico de Frail removido", {
                 description: `${size} registro(s) removido(s)`,
               });
 

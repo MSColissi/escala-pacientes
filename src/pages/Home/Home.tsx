@@ -8,6 +8,7 @@ import {
   BoneFracture,
   Brain,
   Footprints,
+  HeartPlus,
   History,
   SmilePlus,
   Users,
@@ -19,6 +20,7 @@ import Morse from "../Morse/Morse"
 import Fugulin from "../Fugulin/Fugulin"
 import Dor from "../Dor/Dor"
 import Historico from "../Historico/Historico"
+import Frail from "../Frail/Frail"
 
 const tabs = [
   {
@@ -52,6 +54,12 @@ const tabs = [
     component: <Dor />,
   },
   {
+    value: "frail",
+    label: "Frail",
+    icon: HeartPlus,
+    component: <Frail />,
+  },
+  {
     value: "historico",
     label: "Histórico",
     icon: History,
@@ -64,9 +72,9 @@ export default function Home() {
     <main className="flex min-h-dvh justify-center p-5 md:p-10">
       <Tabs
         defaultValue={tabs[0].value}
-        className="w-full sm:max-w-[90dvw] lg:max-w-[70dvw] xl:max-w-[50dvw]"
+        className="w-full sm:max-w-[90dvw] lg:max-w-[70dvw] xl:max-w-[60dvw]"
       >
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto!">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-7 h-auto!">
           {tabs.map(({ value, label, icon: Icon }) => (
             <TabsTrigger
               key={value}

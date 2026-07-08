@@ -52,6 +52,13 @@ export function HistoryItem({
       if (total <= 18) return "before:bg-yellow-600";
       return "before:bg-green-600";
     }
+    else if (escala === "Fugulin") {
+      if (total <= 17) return "before:bg-green-600";
+      if (total <= 22) return "before:bg-yellow-600";
+      if (total <= 28) return "before:bg-amber-600";
+      if (total <= 33) return "before:bg-orange-600";
+      return "before:bg-red-600";
+    }
     // Morse
     if (total <= 24) return "before:bg-green-600";
     if (total <= 44) return "before:bg-yellow-600";
@@ -75,21 +82,32 @@ export function HistoryItem({
       `}
     >
       <div className="grid items-center w-full">
-        {item.hora && <div className="pb-2">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="default">
-              <Timer />
-              {item.hora}
-            </Badge>
-            <Badge variant="default">
-              <Users />
-              {item.proporcao}
-            </Badge>  
+        {item.hora && 
+          <div className="pb-2">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="default" className="w-full sm:w-auto">
+                <Timer />
+                {item.hora}
+              </Badge>
+              <Badge variant="default" className="w-full sm:w-auto">
+                <Users />
+                {item.proporcao}
+              </Badge>  
+            </div>
           </div>
-        </div>}
+        }
+        {item.reavaliacao && 
+          <div className="pb-2">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="default" className="w-full sm:w-auto">
+                <Timer />
+                Reavaliar em {item.reavaliacao}
+              </Badge>
+            </div>
+          </div>
+        }
         <div
-          className="flex flex-1 gap-2 items-center text-left cursor-pointer"
-          onClick={() => onVisualizar(item)}
+          className="flex flex-1 gap-2 items-center text-left"
         >
           <ItemMedia variant="image" className="text-3xl">
             {item.total}

@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
+import type { Classificacao } from "@/utils/classificacao";
 import { RotateCcw, Save } from "lucide-react";
 
 interface ScoreSummaryProps {
   total: number;
-  classificacao: {
-    texto: string;
-    color: string;
-  };
+  classificacao: Classificacao;
 
   formularioCompleto: boolean;
   editando?: boolean;
@@ -27,41 +25,52 @@ export function ScoreSummary({
   children,
 }: ScoreSummaryProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between w-full">
-      <div className="flex w-full justify-between items-center sm:flex-col sm:items-start">
-        <p className="text-sm font-bold">
-          Pontuação Total:
-          <span className={`text-2xl ml-1 ${classificacao.color}`}>
-            {total}
-          </span>
-        </p>
+    <div className="w-full">
+      <small className="text-center block text-primary mb-2">Diante de alteração no quadro clínico do paciente a frequência de reavaliação deverá ser alterada pelo profissional de saúde.</small>
+      <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between w-full">
+        <div className="flex w-full justify-between items-center sm:flex-col sm:items-start">
+          <p className="text-sm font-bold">
+            Pontuação Total:
+            <span className={`text-2xl ml-1 ${classificacao.color}`}>
+              {total}
+            </span>
+          </p>
 
-        <small className={`font-semibold ${classificacao.color}`}>
-          {classificacao.texto}
-        </small>
-      </div>
+          <div className="flex flex-col">
+            <small className={`font-semibold ${classificacao.color}`}>
+              {classificacao.texto}
+            </small>
 
-      <div className="flex flex-col sm:flex-row gap-2 justify-between w-full sm:justify-end">
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-          onClick={onReset}
-        >
-          <RotateCcw />
-          Reiniciar
-        </Button>
+            { classificacao.reavaliacao &&
+              <small className="mt-1">
+                Reavaliar em {classificacao.reavaliacao}
+              </small>
+            }
+          </div>
+        </div>
 
-        {children}
+        <div className="flex flex-col sm:flex-row gap-2 justify-between w-full sm:justify-end">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={onReset}
+          >
+            <RotateCcw />
+            Reiniciar
+          </Button>
 
-        <Button
-          variant="default"
-          className="cursor-pointer"
-          onClick={onSave}
-          disabled={!formularioCompleto}
-        >
-          <Save />
-          {editando ? "Salvar" : "Armazenar"}
-        </Button>
+          {children}
+
+          <Button
+            variant="default"
+            className="cursor-pointer"
+            onClick={onSave}
+            disabled={!formularioCompleto}
+          >
+            <Save />
+            {editando ? "Salvar" : "Armazenar"}
+          </Button>
+        </div>
       </div>
     </div>
   );

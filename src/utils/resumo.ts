@@ -94,3 +94,20 @@ export const calcularResumoMorse = (historico: Historico[]) => {
     },
   );
 }
+
+export const calcularResumoFrail = (historico: Historico[]) => {
+  return historico.reduce(
+    (acc, item) => {
+      if (item.total === 0) acc.robusto++;
+      else if (item.total <= 3) acc.preFragil++;
+      else acc.fragil++;
+
+      return acc;
+    },
+    {
+      robusto: 0,
+      preFragil: 0,
+      fragil: 0
+    },
+  );
+}

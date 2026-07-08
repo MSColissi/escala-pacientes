@@ -1,4 +1,4 @@
-import { escalasBraden, escalasDor, escalasFugulin, escalasGlasgow, escalasMorse } from "@/data/escalas";
+import { escalasBraden, escalasDor, escalasFrail, escalasFugulin, escalasGlasgow, escalasMorse } from "@/data/escalas";
 import type { Escala } from "@/types/escala";
 import type { Historico, HistoricoDor } from "@/types/historico";
 import { toast } from "sonner";
@@ -81,7 +81,7 @@ Tempo na troca do curativo: ${obterTextoResposta(escalasFugulin, 12, item.respos
 
 export const copiarItemGlashow = async (item: Historico, areaTransferencia=true) => {
   const texto = `
-Escala de Coma de Glasgow
+Escala de Glasgow
 
 📅 Data: ${item.data}
 🔢 Total: ${item.total}
@@ -100,7 +100,7 @@ Motora: ${obterTextoResposta(escalasGlasgow, 3, item.respostas[3])}
 
 export const copiarItemMorse = async (item: Historico, areaTransferencia=true) => {
   const texto = `
-Escala de Coma de Morse
+Escala de Morse
 
 📅 Data: ${item.data}
 🔢 Total: ${item.total}
@@ -128,3 +128,24 @@ async function copiarAreaTransferencia(texto: string, id: number) {
     position: "top-center",
   });
 }
+
+export const copiarItemFrail = async (item: Historico, areaTransferencia=true) => {
+  const texto = `
+Escala de Frail
+
+📅 Data: ${item.data}
+🔢 Total: ${item.total}
+📌 Classificação: ${item.classificacao}
+
+📋 Respostas:
+Marcha: ${obterTextoResposta(escalasFrail, 1, item.respostas[1])}
+Força: ${obterTextoResposta(escalasFrail, 2, item.respostas[2])}
+Fadiga: ${obterTextoResposta(escalasFrail, 3, item.respostas[3])}
+Perda ponderal: ${obterTextoResposta(escalasFrail, 4, item.respostas[4])}
+Multimorbidades: ${obterTextoResposta(escalasFrail, 5, item.respostas[5])}
+`.trim();
+
+  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
+  
+  return texto
+};
