@@ -28,15 +28,15 @@ export function ScoreSummary({
     <div className="w-full">
       <small className="text-center block text-primary mb-2">Diante de alteração no quadro clínico do paciente a frequência de reavaliação deverá ser alterada pelo profissional de saúde.</small>
       <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between w-full">
-        <div className="flex w-full justify-between items-center sm:flex-col sm:items-start">
-          <p className="text-sm font-bold">
+        <div className="w-full grid grid-cols-2 sm:grid-cols-1 items-start sm:items-center justify-between gap-2 sm:gap-0"> 
+          <p className="text-sm font-bold text-center sm:text-left flex-col flex sm:block">
             Pontuação Total:
             <span className={`text-2xl ml-1 ${classificacao.color}`}>
               {total}
             </span>
           </p>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col text-center sm:text-left">
             <small className={`font-semibold ${classificacao.color}`}>
               {classificacao.texto}
             </small>

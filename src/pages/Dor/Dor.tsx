@@ -90,7 +90,7 @@ export default function Dor() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent >
         <ToggleGroup
           size="lg"
           spacing={2}

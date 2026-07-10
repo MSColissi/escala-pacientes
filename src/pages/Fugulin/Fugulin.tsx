@@ -56,8 +56,8 @@ export default function Fugulin() {
       respostas,
       total,
       classificacao: classificacao.texto,
-      hora: classificacao.hora,
       proporcao: classificacao.proporcao,
+      reavaliacao: classificacao.reavaliacao
     };
 
     salvar(resultado);
@@ -69,7 +69,9 @@ export default function Fugulin() {
     });
 
     setRespostas({});
-    scrollTop(scrollAreaRef);
+    requestAnimationFrame(() => {
+      scrollTop(scrollAreaRef);
+    });
   };
 
   const abrirResultado = (resultado: (typeof historico)[number]) => {
@@ -99,7 +101,7 @@ export default function Fugulin() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[55dvh] w-full">
           <FormEscala
             escalas={escalasFugulin}
             respostas={respostas}

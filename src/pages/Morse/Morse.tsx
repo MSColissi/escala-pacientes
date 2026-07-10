@@ -39,7 +39,7 @@ export default function Morse() {
 
   const total = Object.values(respostas).reduce((acc, valor) => acc + valor, 0);
 
-  const classificacao = getClassificacaoMorse(total);
+  const classificacao = getClassificacaoMorse(Object.keys(respostas).length > 0 ? total : undefined);
 
   const formularioCompleto = escalasMorse.every(
     (escala) => respostas[escala.id] !== undefined,
@@ -68,7 +68,9 @@ export default function Morse() {
     });
 
     setRespostas({});
-    scrollTop(scrollAreaRef);
+    requestAnimationFrame(() => {
+      scrollTop(scrollAreaRef);
+    });
   };
 
   const abrirResultado = (resultado: (typeof historico)[number]) => {
@@ -98,7 +100,7 @@ export default function Morse() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[55dvh] w-full">
           <FormEscala
             escalas={escalasMorse}
             respostas={respostas}

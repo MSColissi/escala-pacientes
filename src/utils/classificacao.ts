@@ -1,7 +1,6 @@
 export interface Classificacao {
   texto: string;
   color: string;
-  hora?: string;
   proporcao?: string;
   reavaliacao?: string;
 }
@@ -81,8 +80,8 @@ export function getClassificacaoBraden(total: number): Classificacao {
   };
 }
 
-export function getClassificacaoMorse(total: number): Classificacao {
-  if (total === 0) {
+export function getClassificacaoMorse(total: number | undefined): Classificacao {
+  if (total == undefined) {
     return {
       texto: "Sem avaliação",
       color: "text-muted-foreground",
@@ -124,8 +123,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado mínimo (paciente estável, autocuidado)",
       color: "text-green-600",
-      hora: "4h",
-      proporcao: "1 / 6",
+      reavaliacao: "4h",
+      proporcao: "1 para 6",
     };
   }
 
@@ -133,8 +132,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado intermediário (necessita de assistência em alguns momentos)",
       color: "text-yellow-600",
-      hora: "6h",
-      proporcao: "1 / 4",
+      reavaliacao: "6h",
+      proporcao: "1 para 4",
     };
   }
 
@@ -142,8 +141,8 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Alta dependência (dependência maior para atividades diárias)",
       color: "text-amber-600",
-      hora: "10h",
-      proporcao: "1 / 2,4",
+      reavaliacao: "10h",
+      proporcao: "1 para 2,4",
     };
   }
 
@@ -151,16 +150,16 @@ export function getClassificacaoFugulin(total: number): Classificacao {
     return {
       texto: "Cuidado semi-intensivo",
       color: "text-orange-600",
-      hora: "6h",
-      proporcao: "1 / 2,4",
+      reavaliacao: "6h",
+      proporcao: "1 para 2,4",
     };
   }
 
   return {
     texto: "Cuidado intensivo (pacientes gravemente instáveis)",
     color: "text-red-700",
-    hora: "18h",
-    proporcao: "1 / 1,33",
+    reavaliacao: "18h",
+    proporcao: "1 para 1,33",
   };
 }
 

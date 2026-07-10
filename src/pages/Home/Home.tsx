@@ -72,7 +72,7 @@ export default function Home() {
     <main className="flex min-h-dvh justify-center p-5 md:p-10">
       <Tabs
         defaultValue={tabs[0].value}
-        className="w-full sm:max-w-[90dvw] lg:max-w-[70dvw] xl:max-w-[60dvw]"
+        className="w-full sm:max-w-[80dvw] lg:max-w-[70dvw] xl:max-w-[50dvw]"
       >
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-7 h-auto!">
           {tabs.map(({ value, label, icon: Icon }) => (

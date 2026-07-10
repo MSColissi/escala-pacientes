@@ -67,7 +67,9 @@ export default function Glasgow() {
     });
 
     setRespostas({});
-    scrollTop(scrollAreaRef);
+    requestAnimationFrame(() => {
+      scrollTop(scrollAreaRef);
+    });
   };
 
   const abrirResultado = (resultado: (typeof historico)[number]) => {
@@ -97,7 +99,7 @@ export default function Glasgow() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[55dvh] w-full">
           <FormEscala
             escalas={escalasGlasgow}
             respostas={respostas}

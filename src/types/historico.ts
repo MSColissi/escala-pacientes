@@ -4,7 +4,6 @@ export interface Historico {
   total: number;
   classificacao: string;
   respostas: Record<number, number>;
-  hora?: string;
   proporcao?: string;
   reavaliacao?: string;
 }

@@ -30,11 +30,18 @@ export function RadioScale({
       const nextFieldset =
         fieldsetRef.current?.nextElementSibling as HTMLFieldSetElement | null;
 
-      if (!nextFieldset) return;
+      if (nextFieldset) {
+        nextFieldset.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
 
-      nextFieldset.scrollIntoView({
+      // Último RadioGroup: vai para o final da página
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
         behavior: "smooth",
-        block: "start",
       });
     });
   };
@@ -50,7 +57,19 @@ export function RadioScale({
       </legend>
 
       {escala.subItem &&
-        <h3>{escala.subItem}</h3>
+        <h3 className="
+          relative
+          overflow-hidden
+          before:absolute
+          before:inset-y-0
+          before:left-0
+          before:w-1
+          before:rounded
+          before:bg-primary
+          px-2
+        ">
+          {escala.subItem}
+        </h3>
       }
 
       <RadioGroup

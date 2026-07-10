@@ -68,7 +68,9 @@ export default function Braden() {
     });
 
     setRespostas({});
-    scrollTop(scrollAreaRef);
+    requestAnimationFrame(() => {
+      scrollTop(scrollAreaRef);
+    });
   };
 
   const abrirResultado = (resultado: (typeof historico)[number]) => {
@@ -98,7 +100,7 @@ export default function Braden() {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[62dvh] w-full">
+        <ScrollArea ref={scrollAreaRef} className="h-full sm:h-[55dvh] w-full">
           <FormEscala
             escalas={escalasBraden}
             respostas={respostas}

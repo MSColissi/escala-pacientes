@@ -66,7 +66,7 @@ export function HistoryItem({
   }
 
   const beforeColor = getBeforeColor(escala, item.total);
-
+  
   return (
     <Item
       variant="outline"
@@ -81,31 +81,34 @@ export function HistoryItem({
         ${beforeColor}
       `}
     >
-      <div className="grid items-center w-full">
-        {item.hora && 
-          <div className="pb-2">
-            <div className="flex flex-wrap gap-2">
+      <div className="w-full">
+        {(item.reavaliacao || item.proporcao) && (
+          <div className="flex flex-wrap gap-1 items-center mb-2">
+            {item.reavaliacao && 
               <Badge variant="default" className="w-full sm:w-auto">
-                <Timer />
-                {item.hora}
+                <div className="grid grid-cols-[15px_auto] gap-2 items-center w-full px-1">
+                  <Timer width={12} className="m-auto" />
+                  Reavaliar em: {item.reavaliacao}
+                </div>
               </Badge>
+            }
+            {item.proporcao && 
               <Badge variant="default" className="w-full sm:w-auto">
-                <Users />
-                {item.proporcao}
-              </Badge>  
-            </div>
-          </div>
-        }
-        {item.reavaliacao && 
-          <div className="pb-2">
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="default" className="w-full sm:w-auto">
-                <Timer />
-                Reavaliar em {item.reavaliacao}
+                <div className="grid grid-cols-[15px_auto] gap-2 items-center w-full px-1">
+                  <Users width={12} className="m-auto" />
+                  <>
+                    <span className="sm:hidden">
+                      Prop. enf. / pac.: {item.proporcao}
+                    </span>
+                    <span className="hidden sm:inline">
+                      Proporção enfermeiro / paciente: {item.proporcao}
+                    </span>
+                  </>
+                </div>
               </Badge>
-            </div>
+            }
           </div>
-        }
+        )}
         <div
           className="flex flex-1 gap-2 items-center text-left"
         >

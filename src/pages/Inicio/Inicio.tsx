@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator";
 
-import { SquareArrowRight } from "lucide-react";
+import { Copyright, SquareArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Inicio() {
@@ -44,6 +44,9 @@ export default function Inicio() {
           </Button>
         </CardFooter>
       </Card>
+      <div className="flex gap-1 text-xs items-center">
+        <Copyright strokeWidth={1} width={15} /> Mateus Colissi. Todos os direitos reservados.
+      </div>
     </main>
   );
 }

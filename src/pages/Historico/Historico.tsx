@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBradenHistory, useDorHistory, useFrailHistory, useFugulinHistory, useGlasgowHistory, useMorseHistory } from "@/hooks/useHistory";
 import { copiarItemBraden, copiarItemDor, copiarItemFrail, copiarItemFugulin, copiarItemGlashow, copiarItemMorse } from "@/utils/clipboard";
 import { calcularResumoBraden, calcularResumoDor, calcularResumoFrail, calcularResumoFugulin, calcularResumoGlasgow, calcularResumoMorse } from "@/utils/resumo";
-import { Inbox, Trash } from "lucide-react";
+import { BoneFracture, Brain, Footprints, HeartPlus, Inbox, SmilePlus, Trash, Users } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -80,6 +80,7 @@ export default function Historico() {
             <Button 
               disabled={isHistoricoVazio}
               variant="destructive"
+              className="cursor-pointer"
               onClick={() => {
                 limparGlasgow()
                 limparBraden()
@@ -117,7 +118,8 @@ export default function Historico() {
           <ScrollArea className="h-full sm:h-[75dvh] w-full">
             {historicoGlasgow.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-2">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <Brain className="text-primary" /> 
                   Escala de Glasgow
                 </h2>
 
@@ -174,7 +176,8 @@ export default function Historico() {
 
             {historicoBraden.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <BoneFracture className="text-primary" /> 
                   Escala de Braden
                 </h2>
 
@@ -241,7 +244,8 @@ export default function Historico() {
 
             {historicoMorse.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <Footprints className="text-primary" /> 
                   Escala de Morse
                 </h2>
 
@@ -298,7 +302,8 @@ export default function Historico() {
 
             {historicoFugulin.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <Users className="text-primary" /> 
                   Escala de Fugulin
                 </h2>
                 
@@ -365,7 +370,8 @@ export default function Historico() {
 
             {historicoDor.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <SmilePlus className="text-primary" /> 
                   Escala de Dor
                 </h2>
 
@@ -426,7 +432,8 @@ export default function Historico() {
 
             {historicoFrail.length > 0 &&
               <>
-                <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight not-first:mt-4">
+                <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
+                  <HeartPlus className="text-primary" /> 
                   Escala de Frail
                 </h2>
 

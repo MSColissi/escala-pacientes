@@ -2,7 +2,7 @@ import type { RefObject } from "react";
 
 export const scrollTop = (scrollAreaRef: RefObject<HTMLDivElement | null>) => {
   const isMobile = window.matchMedia("(max-width: 639px)").matches;
-
+  
   if (isMobile) {
     window.scrollTo({
       top: 0,
