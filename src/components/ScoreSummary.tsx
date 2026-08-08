@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import type { Classificacao } from "@/utils/classificacao";
 import { RotateCcw, Save } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { Separator } from "./ui/separator";
 
 interface ScoreSummaryProps {
   total: number;
@@ -26,30 +28,33 @@ export function ScoreSummary({
 }: ScoreSummaryProps) {
   return (
     <div className="w-full">
-      <small className="text-center block text-primary mb-2">Diante de alteração no quadro clínico do paciente a frequência de reavaliação deverá ser alterada pelo profissional de saúde.</small>
+      <small className="text-center block text-primary mb-2">
+        Diante de alteração no quadro clínico do paciente a frequência de reavaliação deverá ser alterada pelo profissional de saúde.
+      </small>
       <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between w-full">
-        <div className="w-full grid grid-cols-2 sm:grid-cols-1 items-start sm:items-center justify-between gap-2 sm:gap-0"> 
+        <div className="w-full grid items-center justify-center sm:justify-between gap-2 sm:gap-0"> 
           <p className="text-sm font-bold text-center sm:text-left flex-col flex sm:block">
             Pontuação Total:
-            <span className={`text-2xl ml-1 ${classificacao.color}`}>
+            <span className={`text-2xl ml-0 sm:ml-1 ${classificacao.color}`}>
               {total}
             </span>
           </p>
 
           <div className="flex flex-col text-center sm:text-left">
-            <small className={`font-semibold ${classificacao.color}`}>
+            <Badge className={`font-semibold ${classificacao.color.replace("text", "bg")} whitespace-normal h-auto w-full sm:w-fit`}>
               {classificacao.texto} {classificacao.subtexto && "(" + classificacao.subtexto.toLowerCase() + ")"}
-            </small>
+            </Badge>
 
             { classificacao.reavaliacao &&
-              <small className="mt-1">
-                Reavaliar em {classificacao.reavaliacao}
-              </small>
+              <Badge className="mt-1 w-full sm:w-fit whitespace-normal h-auto">
+                Reavaliar em {classificacao.reavaliacao}h
+              </Badge>
             }
           </div>
         </div>
-
         <div className="flex flex-col sm:flex-row gap-2 justify-between w-full sm:justify-end">
+          <Separator className="block sm:invisible"/>
+          
           <Button
             variant="outline"
             className="cursor-pointer"

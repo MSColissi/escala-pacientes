@@ -177,7 +177,7 @@ export function HistoryItem({
             </DropdownMenu>
           </div>
 
-          <div className="flex gap-1 justify-center sm:justify-start items-center text-xs">
+          <div className="text-xs">
             <span>{escala}</span> • <span className="bg-gray-200 rounded px-1">{item.total} Pontos</span>
           </div>
 
@@ -270,7 +270,7 @@ export function HistoryItem({
                     onValueChange={setValueCuidados}
                   >
                     <AccordionItem value="cuidados" className="border-none">
-                      <AccordionTrigger className="w-fit py-0 text-xs text-primary cursor-pointer hover:no-underline">
+                      <AccordionTrigger className="w-fit py-2 text-xs text-primary cursor-pointer hover:no-underline">
                         {valueCuidados === "cuidados"
                           ? "Mostrar menos"
                           : `Mostrar +${item.cuidado.length - MAX_CUIDADOS} cuidados`}
@@ -308,13 +308,12 @@ export function HistoryItem({
             {respostas.length > MAX_CUIDADOS && (
               <Accordion 
                 type="single" 
-                collapsible 
-                className="mt-2"
+                collapsible
                 value={valueRespostas}
                 onValueChange={setValueRespostas}
               >
                 <AccordionItem value="respostas" className="border-none">
-                  <AccordionTrigger className="w-fit py-0 text-xs text-primary cursor-pointer hover:no-underline">
+                  <AccordionTrigger className="w-fit py-2 text-xs text-primary cursor-pointer hover:no-underline">
                     {valueRespostas === "respostas"
                       ? "Mostrar menos"
                       : `Mostrar +${respostas.length - MAX_CUIDADOS} respostas`}
