@@ -1,8 +1,6 @@
 import {
   Item,
   ItemContent,
-  ItemDescription,
-  ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
 
@@ -15,9 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { Eye, Copy, Menu, Trash2Icon } from "lucide-react";
+import { Eye, Copy, Menu, Trash2Icon, CalendarClock } from "lucide-react";
 import type { HistoricoDor } from "@/types/historico";
-
 
 interface HistoryItemProps {
   item: HistoricoDor;
@@ -47,76 +44,92 @@ export function HistoryItemDor({
   return (
     <Item
       variant="outline"
-      className={`
-        relative
-        overflow-hidden
-        before:absolute
-        before:inset-y-0
-        before:left-0
-        before:w-1
-        before:rounded-l-[inherit]
-        ${beforeColor}
-      `}
+      className="bg-white"
     >
-      <div className="grid items-center w-full">
-        <div
-          className="flex flex-1 gap-2 items-center text-left cursor-pointer"
-          onClick={() => onVisualizar(item)}
-        >
-          <ItemMedia variant="image" className="text-3xl">
-            {item.valor}
-          </ItemMedia>
+      <div className="w-full">
+        <ItemContent>
+          <div className="flex items-center gap-2 justify-between">
+            <ItemTitle className={`
+              text-md
+              sm:text-xl
+              relative
+              pl-6
+              before:absolute
+              before:left-0
+              before:top-1/2
+              before:-translate-y-1/2
+              before:w-3
+              before:h-3
+              before:rounded-full
+              before:content-['']
+              ${beforeColor}
+            `}
+            >
+              {item.classificacao.toUpperCase()}
+            </ItemTitle>
 
-          <ItemContent>
-            <ItemTitle>{item.classificacao}</ItemTitle>
-            <ItemDescription className="text-xs">
-              {item.data}
-            </ItemDescription>
-          </ItemContent>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size={"sm"}
+                  variant="ghost"
+                  className="cursor-pointer"
+                  onClick={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <Menu />
+                </Button>
+              </DropdownMenuTrigger>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="cursor-pointer"
-                onClick={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-              >
-                <Menu />
-              </Button>
-            </DropdownMenuTrigger>
+              <DropdownMenuContent side="left" align="start" className="w-auto">
 
-            <DropdownMenuContent side="left" align="start" className="w-auto">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => onVisualizar(item)}
+                >
+                  <Eye />
+                  Visualizar
+                </DropdownMenuItem>
 
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => onVisualizar(item)}
-              >
-                <Eye />
-                Visualizar
-              </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => onCopiar(item)}
+                >
+                  <Copy />
+                  Copiar
+                </DropdownMenuItem>
 
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => onCopiar(item)}
-              >
-                <Copy />
-                Copiar
-              </DropdownMenuItem>
+                <DropdownMenuSeparator />
 
-              <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-600"
+                  onClick={() => onRemover(item)}
+                >
+                  <Trash2Icon />
+                  Remover
+                </DropdownMenuItem>
 
-              <DropdownMenuItem
-                className="cursor-pointer text-red-600"
-                onClick={() => onRemover(item)}
-              >
-                <Trash2Icon />
-                Remover
-              </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+          <div className="flex gap-1 justify-center sm:justify-start items-center text-xs">
+            <span>Escala de dor</span> • <span className="bg-gray-200 rounded px-1">{item.valor} Pontos</span>
+          </div>
+
+          <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            <CalendarClock width={12} strokeWidth={3} />
+            <strong>Registrado em:</strong>{new Date(item.data).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+            })}
+          </span>
+        </ItemContent>
       </div>
     </Item>
   );

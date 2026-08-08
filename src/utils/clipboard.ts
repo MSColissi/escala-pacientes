@@ -1,9 +1,9 @@
-import { escalasBraden, escalasDor, escalasFrail, escalasFugulin, escalasGlasgow, escalasMorse } from "@/data/escalas";
-import type { Escala } from "@/types/escala";
-import type { Historico, HistoricoDor } from "@/types/historico";
+import { escalasDor } from "@/data/escalas";
+import type { ConfigEscala, Escala } from "@/types/escala";
+import type { Historico, HistoricoBase, HistoricoDor } from "@/types/historico";
 import { toast } from "sonner";
 
-const obterTextoResposta = (escalas: Escala[], escalaId: number, ponto: number) => {
+export const obterTextoResposta = (escalas: Escala[], escalaId: number, ponto: number) => {
   const escala = escalas.find((e) => e.id === escalaId);
   if (!escala) return "";
 
@@ -13,112 +13,88 @@ const obterTextoResposta = (escalas: Escala[], escalaId: number, ponto: number) 
   return `${resposta.item} (${ponto})`;
 };
 
-export const copiarItemBraden = async (item: Historico, areaTransferencia=true) => {
-  const texto = `
-Escala de Braden
+export const gerarTextoHistorico = (
+  item: HistoricoBase,
+  config: ConfigEscala,
+  isDor = false
+) => {
+  const linhas: string[] = [
+    config.titulo,
+    "",
+    `📅 Data: ${new Date(item.data).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    })}`,
+  ];
 
-📅 Data: ${item.data}
-🔢 Total: ${item.total}
-📌 Classificação: ${item.classificacao}
+  if (isDor) {
+    const escala = escalasDor.find(e => e.max === (item as HistoricoDor).valor);
 
-📋 Respostas:
-Percepcao sensorial: ${obterTextoResposta(escalasBraden, 1, item.respostas[1])}
-Umidade: ${obterTextoResposta(escalasBraden, 2, item.respostas[2])}
-Atividade: ${obterTextoResposta(escalasBraden, 3, item.respostas[3])}
-Mobilidade: ${obterTextoResposta(escalasBraden, 4, item.respostas[4])}
-Nutrição: ${obterTextoResposta(escalasBraden, 5, item.respostas[5])}
-Fricção e cisalhamento: ${obterTextoResposta(escalasBraden, 6, item.respostas[6])}
-`.trim();
+    linhas.push(
+      `🔢 Nível: ${escala?.min} - ${escala?.max}`,
+      `📌 Classificação: ${item.classificacao}`
+    );
+  } else {
+    const historico = item as Historico;
 
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};
+    linhas.push(
+      `🔢 Pontuação: ${historico.total}`,
+      `📌 Classificação: ${historico.classificacao}`,
+      "",
+      "📋 Respostas:"
+    );
 
-export const copiarItemDor = async (item: HistoricoDor, areaTransferencia=true) => {    
-  const escala = escalasDor.find(escala => escala.max === item.valor);
+    config.perguntas.forEach((pergunta, index) => {
+      const numero = index + 1;
 
-  const texto = `
-Escala de Dor
+      linhas.push(
+        `${pergunta}: ${obterTextoResposta(
+          config.escalas,
+          numero,
+          historico.respostas[numero]
+        )}`
+      );
+    });
 
-📅 Data: ${item.data}
-🔢 Nível: ${escala?.min} - ${escala?.max}
-📌 Classificação: ${item.classificacao}
-`.trim();
+    if (historico.cuidado?.length) {
+      linhas.push(
+        "",
+        "💡 Cuidados recomendados:"
+      );
 
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};
+      historico.cuidado.forEach(cuidado => {
+        linhas.push(`• ${cuidado}`);
+      });
+    }
+  }
 
-export const copiarItemFugulin = async (item: Historico, areaTransferencia=true) => {
-  const texto = `
-Escala de Fugulin
+  return linhas.join("\n");
+}
 
-📅 Data: ${item.data}
-🔢 Total: ${item.total}
-📌 Classificação: ${item.classificacao}
+export const copiarHistorico = async (
+  item: HistoricoBase,
+  config: ConfigEscala,
+  {
+    areaTransferencia = true,
+    isDor = false,
+  }: {
+    areaTransferencia?: boolean;
+    isDor?: boolean;
+  } = {}
+) => {
+  const texto = gerarTextoHistorico(item, config, isDor);
 
-📋 Respostas:
-Estado mental: ${obterTextoResposta(escalasFugulin, 1, item.respostas[1])}
-Oxigenação: ${obterTextoResposta(escalasFugulin, 2, item.respostas[2])}
-Sinais vitais: ${obterTextoResposta(escalasFugulin, 3, item.respostas[3])}
-Motilidade: ${obterTextoResposta(escalasFugulin, 4, item.respostas[4])}
-Deambulação: ${obterTextoResposta(escalasFugulin, 5, item.respostas[5])}
-Alimentação: ${obterTextoResposta(escalasFugulin, 6, item.respostas[6])}
-Cuidado corportal: ${obterTextoResposta(escalasFugulin, 7, item.respostas[7])}
-Eliminação: ${obterTextoResposta(escalasFugulin, 8, item.respostas[8])}
-Terapêutica: ${obterTextoResposta(escalasFugulin, 9, item.respostas[9])}
-Integridade cutânea-mucosa: ${obterTextoResposta(escalasFugulin, 10, item.respostas[10])}
-Curativo: ${obterTextoResposta(escalasFugulin, 11, item.respostas[11])}
-Tempo na troca do curativo: ${obterTextoResposta(escalasFugulin, 12, item.respostas[12])}
-`.trim();
+  if (areaTransferencia) {
+    await copiarAreaTransferencia(texto, item.id);
+  }
 
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};
-
-export const copiarItemGlashow = async (item: Historico, areaTransferencia=true) => {
-  const texto = `
-Escala de Glasgow
-
-📅 Data: ${item.data}
-🔢 Total: ${item.total}
-📌 Classificação: ${item.classificacao}
-
-📋 Respostas:
-Ocular: ${obterTextoResposta(escalasGlasgow, 1, item.respostas[1])}
-Verbal: ${obterTextoResposta(escalasGlasgow, 2, item.respostas[2])}
-Motora: ${obterTextoResposta(escalasGlasgow, 3, item.respostas[3])}
-`.trim();
-
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};
-
-export const copiarItemMorse = async (item: Historico, areaTransferencia=true) => {
-  const texto = `
-Escala de Morse
-
-📅 Data: ${item.data}
-🔢 Total: ${item.total}
-📌 Classificação: ${item.classificacao}
-
-📋 Respostas:
-Histórico de quedas: ${obterTextoResposta(escalasMorse, 1, item.respostas[1])}
-Diagnóstico secundário: ${obterTextoResposta(escalasMorse, 2, item.respostas[2])}
-Auxílio na marcha: ${obterTextoResposta(escalasMorse, 3, item.respostas[3])}
-Terapia endovenosa: ${obterTextoResposta(escalasMorse, 4, item.respostas[4])}
-Marcha: ${obterTextoResposta(escalasMorse, 5, item.respostas[5])}
-Estado mental: ${obterTextoResposta(escalasMorse, 6, item.respostas[6])}
-`.trim();
-
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};
+  return texto;
+}
 
 async function copiarAreaTransferencia(texto: string, id: number) {
   await navigator.clipboard.writeText(texto);
@@ -128,24 +104,3 @@ async function copiarAreaTransferencia(texto: string, id: number) {
     position: "top-center",
   });
 }
-
-export const copiarItemFrail = async (item: Historico, areaTransferencia=true) => {
-  const texto = `
-Escala de Frail
-
-📅 Data: ${item.data}
-🔢 Total: ${item.total}
-📌 Classificação: ${item.classificacao}
-
-📋 Respostas:
-Marcha: ${obterTextoResposta(escalasFrail, 1, item.respostas[1])}
-Força: ${obterTextoResposta(escalasFrail, 2, item.respostas[2])}
-Fadiga: ${obterTextoResposta(escalasFrail, 3, item.respostas[3])}
-Perda ponderal: ${obterTextoResposta(escalasFrail, 4, item.respostas[4])}
-Multimorbidades: ${obterTextoResposta(escalasFrail, 5, item.respostas[5])}
-`.trim();
-
-  if (areaTransferencia) await copiarAreaTransferencia(texto, item.id)
-  
-  return texto
-};

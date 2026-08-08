@@ -5,7 +5,10 @@ export interface Historico {
   classificacao: string;
   respostas: Record<number, number>;
   proporcao?: string;
-  reavaliacao?: string;
+  reavaliacao?: number;
+  orientacao?: string[];
+  cuidado?: string[];
+  observacao?: string;
 }
 
 export interface HistoricoDor {
@@ -14,3 +17,5 @@ export interface HistoricoDor {
   valor: number;
   classificacao: string;
 }
+
+export type HistoricoBase = Historico | HistoricoDor;

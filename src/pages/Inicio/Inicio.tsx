@@ -32,7 +32,9 @@ export default function Inicio() {
         <Separator />
         <CardContent>
           <p className="text-justify">
-            A <strong>Escala de Coma de Glasgow (ECG)</strong> é uma ferramenta clínica padronizada que avalia o nível de consciência de um paciente, especialmente após traumas cranioencefálicos (TCE). A pontuação varia de <strong>3 a 15</strong>, baseada em três respostas principais: <strong>Abertura Ocular</strong>, <strong>Resposta Verbal</strong> e <strong>Resposta Motora</strong>.
+            Sistema web desenvolvido como parte de um <strong>projeto de pesquisa de Mestrado</strong> da <strong>Universidade Federal de Santa Maria (UFSM)</strong>, com o objetivo de disponibilizar uma ferramenta para aplicação de escalas clínicas utilizadas na avaliação de pacientes em ambiente hospitalar.
+                
+            O sistema busca facilitar a utilização das escalas por profissionais da saúde, reduzindo erros de cálculo, padronizando as avaliações e registrando o histórico das aplicações.
           </p>
         </CardContent>
         

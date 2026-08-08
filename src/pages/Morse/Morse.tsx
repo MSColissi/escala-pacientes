@@ -18,10 +18,11 @@ import { ScoreSummary } from "@/components/ScoreSummary";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { useMorseHistory } from "@/hooks/useHistory";
 import { escalasMorse } from "@/data/escalas";
-import { getClassificacaoMorse } from "@/utils/classificacao";
-import { copiarItemMorse } from "@/utils/clipboard";
+import { getClassificacaoMorse, getCuidadosMorse, getOrientacoesMorse } from "@/utils/classificacao";
 import { scrollTop } from "@/utils/utilitarios";
 import { calcularResumoMorse } from "@/utils/resumo";
+import { copiarHistorico } from "@/utils/clipboard";
+import { CONFIG_MORSE } from "@/types/escala";
 
 export default function Morse() {
   const {
@@ -39,7 +40,11 @@ export default function Morse() {
 
   const total = Object.values(respostas).reduce((acc, valor) => acc + valor, 0);
 
-  const classificacao = getClassificacaoMorse(Object.keys(respostas).length > 0 ? total : undefined);
+  const totalMorse = Object.keys(respostas).length > 0 ? total : undefined;
+
+  const cuidados = getCuidadosMorse(totalMorse);
+  const orientacoes = getOrientacoesMorse(totalMorse);
+  const classificacao = getClassificacaoMorse(totalMorse);
 
   const formularioCompleto = escalasMorse.every(
     (escala) => respostas[escala.id] !== undefined,
@@ -51,12 +56,14 @@ export default function Morse() {
     }
 
     const resultado: Historico = {
-      id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
-      respostas,
       total,
+      respostas,
+      cuidado: cuidados,
+      orientacao: orientacoes,
       classificacao: classificacao.texto,
-      reavaliacao: classificacao.reavaliacao
+      id: itemSelecionado?.id ?? Date.now(),
+      reavaliacao: classificacao.reavaliacao,
+      data: new Date().toISOString(),
     };
 
     salvar(resultado);
@@ -141,7 +148,7 @@ export default function Morse() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemMorse(item)
+              copiarHistorico(item, CONFIG_MORSE)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);

@@ -18,10 +18,11 @@ import { FormEscala } from "@/components/FormEscala";
 import { ScoreSummary } from "@/components/ScoreSummary";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { useBradenHistory } from "@/hooks/useHistory";
-import { getClassificacaoBraden } from "@/utils/classificacao";
-import { copiarItemBraden } from "@/utils/clipboard";
+import { getClassificacaoBraden, getCuidadosBraden, getOrientacoesBraden } from "@/utils/classificacao";
+import { copiarHistorico } from "@/utils/clipboard";
 import { scrollTop } from "@/utils/utilitarios";
 import { calcularResumoBraden } from "@/utils/resumo";
+import { CONFIG_BRADEN } from "@/types/escala";
 
 export default function Braden() {
   const {
@@ -39,6 +40,8 @@ export default function Braden() {
 
   const total = Object.values(respostas).reduce((acc, valor) => acc + valor, 0);
 
+  const cuidados = getCuidadosBraden(total);
+  const orientacoes = getOrientacoesBraden(total);
   const classificacao = getClassificacaoBraden(total);
   
   const formularioCompleto = escalasBraden.every(
@@ -51,12 +54,14 @@ export default function Braden() {
     }
 
     const resultado: Historico = {
-      id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
-      respostas,
       total,
+      respostas,
+      cuidado: cuidados,
+      orientacao: orientacoes,
       classificacao: classificacao.texto,
-      reavaliacao: classificacao.reavaliacao
+      id: itemSelecionado?.id ?? Date.now(),
+      reavaliacao: classificacao.reavaliacao,
+      data: new Date().toISOString(),
     };
 
     salvar(resultado);
@@ -141,7 +146,7 @@ export default function Braden() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemBraden(item)
+              copiarHistorico(item, CONFIG_BRADEN)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);

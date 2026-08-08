@@ -38,7 +38,7 @@ export function ScoreSummary({
 
           <div className="flex flex-col text-center sm:text-left">
             <small className={`font-semibold ${classificacao.color}`}>
-              {classificacao.texto}
+              {classificacao.texto} {classificacao.subtexto && "(" + classificacao.subtexto.toLowerCase() + ")"}
             </small>
 
             { classificacao.reavaliacao &&

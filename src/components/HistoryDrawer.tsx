@@ -2,7 +2,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -10,7 +9,7 @@ import {
 } from "@/components/ui/drawer";
 
 import { Button } from "@/components/ui/button";
-import { ClipboardClock, X } from "lucide-react";
+import { ClipboardClock, Inbox, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 import { ItemGroup } from "@/components/ui/item";
@@ -22,6 +21,8 @@ import { DeleteItemDialog } from "./DeleteItemDialog";
 import { useState, type ReactNode } from "react";
 import type { Historico } from "@/types/historico";
 import type { TiposEscala } from "@/types/escala";
+import { filtrarHistorico } from "@/pages/Historico/Historico";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "./ui/empty";
 
 interface HistoryDrawerProps {
   escala: TiposEscala;
@@ -110,6 +111,17 @@ export function HistoryDrawer({
   onClose,
 }: HistoryDrawerProps) {
 
+  const [filtro, setFiltro] = useState<{
+    escala: string;
+    classificacao: string;
+  } | null>(null);
+
+  const historicoFiltrado = filtrarHistorico(
+    historico,
+    escala,
+    filtro
+  );
+
   const [openDeleteItem, setOpenDeleteItem] = useState(false);
   const [itemParaExcluir, setItemParaExcluir] =
     useState<Historico | null>(null);
@@ -128,14 +140,10 @@ export function HistoryDrawer({
 
         <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
           <DrawerHeader>
-            <DrawerTitle className="flex items-center gap-2">
-              <ClipboardClock />
+            <DrawerTitle className="flex justify-center gap-2 items-center">
+              <ClipboardClock width={16} />
               Histórico
             </DrawerTitle>
-
-            <DrawerDescription>
-              Clique em um item para visualizar os detalhes.
-            </DrawerDescription>
 
             <Separator />
 
@@ -161,6 +169,22 @@ export function HistoryDrawer({
                       color: "bg-red-600",
                     },
                   ]}
+                  selected={
+                    filtro?.escala === "Glasgow"
+                      ? filtro.classificacao
+                      : null
+                  }
+                  onSelect={(item) =>
+                    setFiltro((atual) =>
+                      atual?.escala === "Glasgow" &&
+                      atual.classificacao === item.label
+                        ? null
+                        : {
+                            escala: "Glasgow",
+                            classificacao: item.label,
+                          }
+                    )
+                  }
                 />
               : resumoBraden
                 ?
@@ -193,6 +217,22 @@ export function HistoryDrawer({
                         color: "bg-red-700",
                       },
                     ]}
+                    selected={
+                      filtro?.escala === "Braden"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Braden" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Braden",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
                 : resumoMorse 
                   ?
@@ -215,6 +255,22 @@ export function HistoryDrawer({
                           color: "bg-red-600",
                         },
                       ]}
+                      selected={
+                      filtro?.escala === "Morse"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Morse" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Morse",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                     />                
                   : resumoFugulin 
                     ?
@@ -247,6 +303,22 @@ export function HistoryDrawer({
                             color: "bg-red-700",
                           },
                         ]}
+                        selected={
+                          filtro?.escala === "Fugulin"
+                            ? filtro.classificacao
+                            : null
+                        }
+                        onSelect={(item) =>
+                          setFiltro((atual) =>
+                            atual?.escala === "Fugulin" &&
+                            atual.classificacao === item.label
+                              ? null
+                              : {
+                                  escala: "Fugulin",
+                                  classificacao: item.label,
+                                }
+                          )
+                        }
                       />
                     : resumoFrail &&
                       <HistoryResume
@@ -268,6 +340,22 @@ export function HistoryDrawer({
                             color: "bg-amber-600",
                           }
                         ]}
+                        selected={
+                          filtro?.escala === "Frail"
+                            ? filtro.classificacao
+                            : null
+                        }
+                        onSelect={(item) =>
+                          setFiltro((atual) =>
+                            atual?.escala === "Frail" &&
+                            atual.classificacao === item.label
+                              ? null
+                              : {
+                                  escala: "Frail",
+                                  classificacao: item.label,
+                                }
+                          )
+                        }
                       />
             }
 
@@ -281,7 +369,21 @@ export function HistoryDrawer({
               </p>
             ) : (
               <ItemGroup className="gap-4">
-                {historico.map((item) => (
+                {historicoFiltrado.length === 0 &&
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <Inbox />
+                      </EmptyMedia>
+                      <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                      <EmptyDescription>
+                        Selecione outro filtro ou desmarque o filtro selecionado.
+                      </EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
+                }
+
+                {historicoFiltrado.map((item) => (
                   <HistoryItem
                     escala={escala}
                     key={item.id}

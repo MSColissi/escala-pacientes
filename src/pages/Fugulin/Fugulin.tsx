@@ -19,9 +19,10 @@ import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { useFugulinHistory } from "@/hooks/useHistory";
 import { getClassificacaoFugulin } from "@/utils/classificacao";
 import { escalasFugulin } from "@/data/escalas";
-import { copiarItemFugulin } from "@/utils/clipboard";
 import { scrollTop } from "@/utils/utilitarios";
 import { calcularResumoFugulin } from "@/utils/resumo";
+import { copiarHistorico } from "@/utils/clipboard";
+import { CONFIG_FUGULIN } from "@/types/escala";
 
 export default function Fugulin() {
   const {
@@ -52,12 +53,13 @@ export default function Fugulin() {
 
     const resultado: Historico = {
       id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
+      data: new Date().toISOString(),
       respostas,
       total,
       classificacao: classificacao.texto,
       proporcao: classificacao.proporcao,
-      reavaliacao: classificacao.reavaliacao
+      reavaliacao: classificacao.reavaliacao,
+      observacao: classificacao.subtexto
     };
 
     salvar(resultado);
@@ -142,7 +144,7 @@ export default function Fugulin() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemFugulin(item)
+              copiarHistorico(item, CONFIG_FUGULIN)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);

@@ -7,7 +7,6 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/
 import { ItemGroup } from "@/components/ui/item";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBradenHistory, useDorHistory, useFrailHistory, useFugulinHistory, useGlasgowHistory, useMorseHistory } from "@/hooks/useHistory";
-import { copiarItemBraden, copiarItemDor, copiarItemFrail, copiarItemFugulin, copiarItemGlashow, copiarItemMorse } from "@/utils/clipboard";
 import { calcularResumoBraden, calcularResumoDor, calcularResumoFrail, calcularResumoFugulin, calcularResumoGlasgow, calcularResumoMorse } from "@/utils/resumo";
 import { BoneFracture, Brain, Footprints, HeartPlus, Inbox, SmilePlus, Trash, Users } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -16,6 +15,23 @@ import {
   Dialog,
   DialogContent
 } from "@/components/ui/dialog";
+import { copiarHistorico } from "@/utils/clipboard";
+import { CONFIG_BRADEN, CONFIG_DOR, CONFIG_FRAIL, CONFIG_FUGULIN, CONFIG_GLASGOW, CONFIG_MORSE } from "@/types/escala";
+
+export function filtrarHistorico<T extends { classificacao: string }>(
+  historico: T[],
+  escala: string,
+  filtro: { escala: string; classificacao: string } | null
+) {
+  
+  if (!filtro || filtro.escala !== escala) {
+    return historico;
+  }
+
+  return historico.filter(
+    item => item.classificacao === filtro.classificacao
+  );
+}
 
 export default function Historico() {
   const {
@@ -68,14 +84,54 @@ export default function Historico() {
 
   const [mensagem, setMensagem] = useState("");
   const [dialogVisualizar, setDialogVisualizar] = useState(false);
+  const [filtro, setFiltro] = useState<{
+    escala: string;
+    classificacao: string;
+  } | null>(null);
 
   const isHistoricoVazio = historicoGlasgow.length === 0 && historicoBraden.length === 0 && historicoMorse.length === 0 && historicoFugulin.length === 0 && historicoDor.length === 0 && historicoFrail.length === 0;
 
+  const historicoGlasgowFiltrado = filtrarHistorico(
+    historicoGlasgow,
+    "Glasgow",
+    filtro
+  );
+
+  const historicoBradenFiltrado = filtrarHistorico(
+    historicoBraden,
+    "Braden",
+    filtro
+  );
+
+  const historicoMorseFiltrado = filtrarHistorico(
+    historicoMorse,
+    "Morse",
+    filtro
+  );
+
+  const historicoFugulinFiltrado = filtrarHistorico(
+    historicoFugulin,
+    "Fugulin",
+    filtro
+  );
+
+  const historicoDorFiltrado = filtrarHistorico(
+    historicoDor,
+    "Dor",
+    filtro
+  );
+
+  const historicoFrailFiltrado = filtrarHistorico(
+    historicoFrail,
+    "Frail",
+    filtro
+  );
+  
   return (
-    <Card size="sm" className="w-full max-w-5xl">
+    <Card  size="sm" className="w-full max-w-5xl bg-muted">
       <CardHeader>
         <CardTitle className="font-bold">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <h1>Histórico</h1>
             <Button 
               disabled={isHistoricoVazio}
@@ -119,11 +175,11 @@ export default function Historico() {
             {historicoGlasgow.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <Brain className="text-primary" /> 
+                  <Brain className="text-primary" width={18} /> 
                   Escala de Glasgow
                 </h2>
 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Glasgow"
                     itens={[
@@ -144,21 +200,51 @@ export default function Historico() {
                       },
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Glasgow"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Glasgow" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Glasgow",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoGlasgow.map((item) => (
+                    {historicoGlasgowFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoGlasgowFiltrado.map((item) => (
                       <HistoryItem
                         escala="Glasgow"
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemGlashow(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_GLASGOW, { areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemGlashow(item)
+                          copiarHistorico(item, CONFIG_GLASGOW)
                         }}
                         onRemover={(item) => {
                           removerGlasgow(item.id);
@@ -177,11 +263,11 @@ export default function Historico() {
             {historicoBraden.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <BoneFracture className="text-primary" /> 
+                  <BoneFracture className="text-primary" width={18} /> 
                   Escala de Braden
                 </h2>
 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Braden"
                     itens={[
@@ -201,32 +287,62 @@ export default function Historico() {
                         color: "bg-amber-600",
                       },
                       {
-                        label: "Risco alto",
+                        label: "Risco elevado",
                         value: resumoBraden.alto,
                         color: "bg-orange-600",
                       },
                       {
-                        label: "Risco muito alto",
+                        label: "Risco muito elevado",
                         value: resumoBraden.muitoAlto,
                         color: "bg-red-700",
                       },
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Braden"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Braden" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Braden",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoBraden.map((item) => (
+                    {historicoBradenFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoBradenFiltrado.map((item) => (
                       <HistoryItem
                         escala="Braden"
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemBraden(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_BRADEN, { areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemBraden(item)
+                          copiarHistorico(item, CONFIG_BRADEN)
                         }}
                         onRemover={(item) => {
                           removerBraden(item.id);
@@ -245,11 +361,11 @@ export default function Historico() {
             {historicoMorse.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <Footprints className="text-primary" /> 
+                  <Footprints className="text-primary" width={18} /> 
                   Escala de Morse
                 </h2>
 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Morse"
                     itens={[
@@ -270,21 +386,51 @@ export default function Historico() {
                       },
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Morse"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Morse" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Morse",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoMorse.map((item) => (
+                    {historicoMorseFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoMorseFiltrado.map((item) => (
                       <HistoryItem
                         escala="Morse"
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemMorse(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_MORSE, { areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemMorse(item)
+                          copiarHistorico(item, CONFIG_MORSE)
                         }}
                         onRemover={(item) => {
                           removerMorse(item.id);
@@ -303,11 +449,11 @@ export default function Historico() {
             {historicoFugulin.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <Users className="text-primary" /> 
+                  <Users className="text-primary" width={18} /> 
                   Escala de Fugulin
                 </h2>
                 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Fugulin"
                     itens={[
@@ -338,21 +484,51 @@ export default function Historico() {
                       },
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Fugulin"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Fugulin" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Fugulin",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoFugulin.map((item) => (
+                    {historicoFugulinFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoFugulinFiltrado.map((item) => (
                       <HistoryItem
                         escala="Fugulin"
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemFugulin(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_FUGULIN, { areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemFugulin(item)
+                          copiarHistorico(item, CONFIG_FUGULIN)
                         }}
                         onRemover={(item) => {
                           removerFugulin(item.id);
@@ -371,11 +547,11 @@ export default function Historico() {
             {historicoDor.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <SmilePlus className="text-primary" /> 
+                  <SmilePlus className="text-primary" width={18} /> 
                   Escala de Dor
                 </h2>
 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Dor"
                     itens={[
@@ -401,20 +577,50 @@ export default function Historico() {
                       },
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Dor"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Dor" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Dor",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoDor.map((item) => (
+                    {historicoDorFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoDorFiltrado.map((item) => (
                       <HistoryItemDor
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemDor(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_DOR, { isDor: true, areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemDor(item)
+                          copiarHistorico(item, CONFIG_DOR, { isDor: true })
                         }}
                         onRemover={(item) => {
                           removerDor(item.id);
@@ -433,11 +639,11 @@ export default function Historico() {
             {historicoFrail.length > 0 &&
               <>
                 <h2 className="flex gap-2 scroll-m-20 mb-2 text-lg font-semibold tracking-tight not-first:mt-4 items-center">
-                  <HeartPlus className="text-primary" /> 
+                  <HeartPlus className="text-primary" width={18} /> 
                   Escala de Frail
                 </h2>
 
-                <div className="px-2">
+                <div>
                   <HistoryResume
                     escala="Frail"
                     itens={[
@@ -458,21 +664,51 @@ export default function Historico() {
                       }
                     ]}
                     showResumo={false}
+                    selected={
+                      filtro?.escala === "Frail"
+                        ? filtro.classificacao
+                        : null
+                    }
+                    onSelect={(item) =>
+                      setFiltro((atual) =>
+                        atual?.escala === "Frail" &&
+                        atual.classificacao === item.label
+                          ? null
+                          : {
+                              escala: "Frail",
+                              classificacao: item.label,
+                            }
+                      )
+                    }
                   />
 
                   <ItemGroup className="gap-4 px-2">
-                    {historicoFrail.map((item) => (
+                    {historicoFrailFiltrado.length === 0 &&
+                      <Empty>
+                        <EmptyHeader>
+                          <EmptyMedia variant="icon">
+                            <Inbox />
+                          </EmptyMedia>
+                          <EmptyTitle>Não há escores armazenados para o filtro selecionado.</EmptyTitle>
+                          <EmptyDescription>
+                            Selecione outro filtro ou desmarque o filtro selecionado.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
+                    }
+
+                    {historicoFrailFiltrado.map((item) => (
                       <HistoryItem
                         escala="Frail"
                         key={item.id}
                         item={item}
                         onVisualizar={async (item) => {
-                          const texto = await copiarItemFrail(item, false)
+                          const texto = await copiarHistorico(item, CONFIG_FRAIL, { areaTransferencia: false })
                           setMensagem(texto)
                           setDialogVisualizar(true)
                         }}
                         onCopiar={(item) => {
-                          copiarItemFrail(item)
+                          copiarHistorico(item, CONFIG_FRAIL)
                         }}
                         onRemover={(item) => {
                           removerFrail(item.id);

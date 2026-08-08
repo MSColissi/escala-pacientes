@@ -19,9 +19,10 @@ import { escalasGlasgow } from "@/data/escalas";
 import { FormEscala } from "@/components/FormEscala";
 import { ScoreSummary } from "@/components/ScoreSummary";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
-import { copiarItemGlashow } from "@/utils/clipboard";
 import { scrollTop } from "@/utils/utilitarios";
 import { calcularResumoGlasgow } from "@/utils/resumo";
+import { copiarHistorico } from "@/utils/clipboard";
+import { CONFIG_GLASGOW } from "@/types/escala";
 
 export default function Glasgow() {
   const {
@@ -52,7 +53,7 @@ export default function Glasgow() {
 
     const resultado: Historico = {
       id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
+      data: new Date().toISOString(),
       respostas,
       total,
       classificacao: classificacao.texto,
@@ -140,7 +141,7 @@ export default function Glasgow() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemGlashow(item)
+              copiarHistorico(item, CONFIG_GLASGOW)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);

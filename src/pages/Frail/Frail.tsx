@@ -19,9 +19,10 @@ import { ScoreSummary } from "@/components/ScoreSummary";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { useFrailHistory } from "@/hooks/useHistory";
 import { getClassificacaoFrail } from "@/utils/classificacao";
-import { copiarItemFrail } from "@/utils/clipboard";
 import { scrollTop } from "@/utils/utilitarios";
 import { calcularResumoFrail } from "@/utils/resumo";
+import { CONFIG_FRAIL } from "@/types/escala";
+import { copiarHistorico } from "@/utils/clipboard";
 
 export default function Frail() {
   const {
@@ -52,7 +53,7 @@ export default function Frail() {
 
     const resultado: Historico = {
       id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
+      data: new Date().toISOString(),
       respostas,
       total,
       classificacao: classificacao.texto
@@ -140,7 +141,7 @@ export default function Frail() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemFrail(item)
+              copiarHistorico(item, CONFIG_FRAIL)
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);

@@ -20,3 +20,23 @@ export const scrollTop = (scrollAreaRef: RefObject<HTMLDivElement | null>) => {
     behavior: "smooth",
   });
 };
+
+export function calcularProximaReavaliacao(
+  dataISO: string,
+  reavaliacaoHoras: number | undefined
+): string {
+  if (!reavaliacaoHoras) return ""
+  const proxima = new Date(
+    new Date(dataISO).getTime() + reavaliacaoHoras * 60 * 60 * 1000
+  );
+
+  return proxima.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+}

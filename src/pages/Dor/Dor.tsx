@@ -19,11 +19,12 @@ import { escalasDor } from "@/data/escalas";
 import { useDorHistory } from "@/hooks/useHistory";
 import { getClassificacaoDor } from "@/utils/classificacao";
 import { toast } from "sonner";
-import { copiarItemDor } from "@/utils/clipboard";
 import { ScoreSummary } from "@/components/ScoreSummary";
 import { ClipboardClock } from "lucide-react";
 import { HistoryDrawerDor } from "@/components/HistoryDrawerDor";
 import { calcularResumoDor } from "@/utils/resumo";
+import { copiarHistorico } from "@/utils/clipboard";
+import { CONFIG_DOR } from "@/types/escala";
 
 export default function Dor() {
   const {
@@ -49,7 +50,7 @@ export default function Dor() {
 
     const resultado: HistoricoDor = {
       id: itemSelecionado?.id ?? Date.now(),
-      data: new Date().toLocaleString("pt-BR"),
+      data: new Date().toISOString(),
       valor: resposta,
       classificacao: classificacao.texto,
     };
@@ -151,7 +152,7 @@ export default function Dor() {
               abrirResultado(item)
             }}
             onCopiar={(item) => {
-              copiarItemDor(item)
+              copiarHistorico(item, CONFIG_DOR, { isDor: true })
             }}
             onDeleteItemConfirm={(item) => {
               remover(item.id);
